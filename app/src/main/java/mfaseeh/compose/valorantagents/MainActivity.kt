@@ -6,14 +6,20 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import mfaseeh.compose.valorantagents.domain.AgentsListUiState
 import mfaseeh.compose.valorantagents.domain.HomeViewModel
 import mfaseeh.compose.valorantagents.ui.theme.ValorantAgentsTheme
 
@@ -24,14 +30,28 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ValorantAgentsTheme {
-               val viewModel = hiltViewModel<HomeViewModel>()
+                val viewModel = hiltViewModel<HomeViewModel>()
                 // A surface container using the 'background' color from the theme
+                val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
-                    Greeting("Android")
+                    if (agentsListUiState is AgentsListUiState.GetAgentsSuccess) {
+                        LazyColumn(
+                            state = rememberLazyListState(),
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            val data = (agentsListUiState as AgentsListUiState.GetAgentsSuccess).agents
+                            (data)?.forEachIndexed { index, agent ->
+                                item {
+                                    Text(text = agent.displayName)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -40,7 +60,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Column(){
+    Column() {
         Text(
             text = "Hello $name!",
             modifier = modifier
