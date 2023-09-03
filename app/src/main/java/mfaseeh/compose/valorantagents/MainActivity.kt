@@ -58,19 +58,21 @@ class MainActivity : ComponentActivity() {
                                 (agentsListUiState as AgentsListUiState.GetAgentsSuccess).agents
                             (data).forEachIndexed { _, agent ->
                                 item {
-                                    Row() {
-                                        AsyncImage(
-                                            model = ImageRequest.Builder(context = LocalContext.current)
-                                                .data(agent.displayIcon)
-                                                .crossfade(true)
-                                                .build(),
-                                            contentDescription = null,
-                                            error = painterResource(R.drawable.ic_broken_image),
-                                            placeholder = painterResource(R.drawable.loading_img),
+                                    if(agent.isPlayableCharacter){
+                                        Row() {
+                                            AsyncImage(
+                                                model = ImageRequest.Builder(context = LocalContext.current)
+                                                    .data(agent.displayIcon)
+                                                    .crossfade(true)
+                                                    .build(),
+                                                contentDescription = null,
+                                                error = painterResource(R.drawable.ic_broken_image),
+                                                placeholder = painterResource(R.drawable.loading_img),
 
-                                            )
-                                        Text(text = agent.displayName)
-                                        Spacer(modifier = Modifier.width(10.dp))
+                                                )
+                                            Text(text = agent.displayName)
+                                            Spacer(modifier = Modifier.width(10.dp))
+                                        }
                                     }
                                 }
                             }

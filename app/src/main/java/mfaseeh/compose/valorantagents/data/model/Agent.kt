@@ -11,6 +11,16 @@ data class Agent(
     val displayName: String,
     @Json(name = "displayIcon")
     val displayIcon: String,
+    @Json(name = "isPlayableCharacter")
+    val isPlayableCharacter: Boolean,
+    @Json(name = "description")
+    val description: String,
+    @Json(name = "fullPortrait")
+    val fullPortrait: String? = "",
+    @Json(name = "fullPortraitV2")
+    val fullPortraitV2: String? = "",
+    @Json(name = "background")
+    val background: String? = ""
 )
 
 @JsonClass(generateAdapter = true)

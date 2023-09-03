@@ -9,4 +9,9 @@ internal data class AgentEntity(
     @PrimaryKey val uuid: String,
     val displayName: String,
     val displayIcon: String,
+    val isPlayableCharacter: Boolean,
+    val description: String,
+    val fullPortrait: String? = "",
+    val fullPortraitV2: String? = "",
+    val background: String? = ""
 )

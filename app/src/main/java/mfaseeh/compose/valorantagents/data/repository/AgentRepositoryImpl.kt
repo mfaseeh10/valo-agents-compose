@@ -39,7 +39,7 @@ internal class AgentRepositoryImpl @Inject constructor(
 
             else if (it is ResultState.Error){
                 emit(it)
-                Log.d("Agent", "error from repo")
+                Log.e("Agent", "error from repo ${it.exception}")
             }
         }
     }
