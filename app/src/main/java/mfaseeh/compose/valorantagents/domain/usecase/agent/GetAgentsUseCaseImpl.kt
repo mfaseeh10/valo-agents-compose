@@ -12,6 +12,7 @@ internal class GetAgentsUseCaseImpl(
 ) : GetAgentsUseCase {
     override fun invoke(): Flow<ResultState<List<Agent>>> = flow {
         agentRepository.getAgents().collect {
+            Log.d("Agents", "Repo called")
             if (it is ResultState.Success) {
                 Log.d("Agents", "${it.data}")
                 emit(ResultState.Success(it.data))

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ValorantAgents</string>
+    <string name="empty_response_text">Unable to fetch data</string>
 </resources>
