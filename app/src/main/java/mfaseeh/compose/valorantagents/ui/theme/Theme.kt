@@ -15,8 +15,8 @@ import androidx.core.view.WindowCompat
 import mfaseeh.compose.valorantagents.ui.base.theme.valoAgentsTypography
 
 private val DarkColorScheme = darkColors(
-    primary = Purple80,
-    secondary = PurpleGrey80,
+    primary = GreyBg,
+    secondary = ValoRed,
 )
 
 private val LightColorScheme = lightColors(
@@ -46,13 +46,13 @@ fun ValorantAgentsTheme(
         else -> LightColorScheme
     }
     val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
-        }
-    }
+//    if (!view.isInEditMode) {
+//        SideEffect {
+//            val window = (view.context as Activity).window
+//            window.statusBarColor = colorScheme.primary.toArgb()
+//            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+//        }
+//    }
 
     MaterialTheme(
         colors = colorScheme,
