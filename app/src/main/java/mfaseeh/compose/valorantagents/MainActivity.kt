@@ -27,9 +27,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.compose.ValorantAppTheme
+import com.example.compose.md_theme_dark_surface
 import dagger.hilt.android.AndroidEntryPoint
 import mfaseeh.compose.valorantagents.domain.AgentsListUiState
 import mfaseeh.compose.valorantagents.domain.HomeViewModel
+import mfaseeh.compose.valorantagents.ui.home.HomeScreen
 import mfaseeh.compose.valorantagents.ui.theme.ValorantAgentsTheme
 
 @AndroidEntryPoint
@@ -38,72 +41,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ValorantAgentsTheme {
-                val viewModel = hiltViewModel<HomeViewModel>()
-                // A surface container using the 'background' color from the theme
-                val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
-
+            ValorantAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background,
-
                 ) {
-                    if (agentsListUiState is AgentsListUiState.GetAgentsSuccess) {
-                        LazyColumn(
-                            state = rememberLazyListState(),
-                            modifier = Modifier
-                                .fillMaxSize()
-                        ) {
-                            val data =
-                                (agentsListUiState as AgentsListUiState.GetAgentsSuccess).agents
-                            (data).forEachIndexed { _, agent ->
-                                item {
-                                    if(agent.isPlayableCharacter){
-                                        Row() {
-                                            AsyncImage(
-                                                model = ImageRequest.Builder(context = LocalContext.current)
-                                                    .data(agent.displayIcon)
-                                                    .crossfade(true)
-                                                    .build(),
-                                                contentDescription = null,
-                                                error = painterResource(R.drawable.ic_broken_image),
-                                                placeholder = painterResource(R.drawable.loading_img),
-
-                                                )
-                                            Text(text = agent.displayName)
-                                            Spacer(modifier = Modifier.width(10.dp))
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if(agentsListUiState is AgentsListUiState.Error){
-                        Text(text = "An error has occured")
-                    }
-                    else {
-                        Text(text = "No response")
-                    }
+                    HomeScreen()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Column() {
-        Text(
-            text = "Hello $name!",
-            modifier = modifier
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ValorantAgentsTheme {
-        Greeting("Android")
     }
 }
