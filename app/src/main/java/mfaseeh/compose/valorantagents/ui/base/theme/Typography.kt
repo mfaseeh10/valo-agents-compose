@@ -4,8 +4,7 @@ import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.tech.bazaar.baload.ui.base.theme.interFontFamily
-import com.tech.bazaar.baload.ui.base.theme.playfairFontFamily
+import com.example.compose.md_theme_light_onPrimary
 
 val valorantAgentsTypography = Typography(
     displayLarge = TextStyle(
@@ -20,75 +19,31 @@ val valorantAgentsTypography = Typography(
         fontSize = 16.sp,
         lineHeight = 19.sp
     ),
-
-    // todo: to be updated
     displaySmall = TextStyle(
         fontFamily = playfairFontFamily,
         fontWeight = FontWeight.W500,
         fontSize = 18.sp,
     ),
-//    h4 = TextStyle(
-//        fontFamily = FontFamily(
-//            Font(R.font.intermedium, FontWeight.W500)
-//        ),
-//        fontWeight = FontWeight.W400,
-//        fontSize = 12.sp,
-//        letterSpacing = 2.14.sp
-//    ),
-//    h5 = TextStyle(
-//        fontFamily = FontFamily(
-//            Font(R.font.interregular, FontWeight.W400)
-//        ),
-//        fontWeight = FontWeight.W400,
-//        fontSize = 16.sp,
-//    ),
-//    h6 = TextStyle(
-//        fontFamily = FontFamily(
-//            Font(R.font.interregular, FontWeight.W400)
-//        ),
-//        fontWeight = FontWeight.W400,
-//        fontSize = 14.sp,
-//    ),
-//    h2 = TextStyle(
-//        fontFamily = FontFamily(
-//            Font(R.font.interregular, FontWeight.W400)
-//        ),
-//        fontWeight = FontWeight.W400,
-//        fontSize = 12.sp,
-//        letterSpacing = 0.16.sp
-//    ),
-//    subtitle2 = TextStyle(
-//        fontFamily = interFontFamily,
-//        fontWeight = FontWeight.W400,
-//        fontSize = 10.sp,
-//    ),
-//    body1 = TextStyle(
-//        fontFamily = interFontFamily,
-//        fontWeight = FontWeight.W400,
-//        fontSize = 16.sp
-//    ),
-//    body2 = TextStyle(
-//        fontFamily = interFontFamily,
-//        fontWeight = FontWeight.W300,
-//        fontSize = 14.sp
-//    ),
-//    button = TextStyle(
-//        fontFamily = FontFamily(
-//            Font(R.font.intermedium, FontWeight.W600)
-//        ),
-//        fontWeight = FontWeight.W600,
-//        fontSize = 14.sp,
-//        letterSpacing = 1.2.sp,
-//        color = Color.White,
-//    ),
-//    caption = TextStyle(
-//        fontFamily = interFontFamily,
-//        fontWeight = FontWeight.Normal,
-//        fontSize = 12.sp
-//    ),
-//    overline = TextStyle(
-//        fontFamily = interFontFamily,
-//        fontWeight = FontWeight.W400,
-//        fontSize = 12.sp
-//    )
+    bodyLarge = TextStyle(
+        fontFamily = interFontFamily,
+        fontWeight = FontWeight.W400,
+        fontSize = 16.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = interFontFamily,
+        fontWeight = FontWeight.W300,
+        fontSize = 14.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = interFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = interFontFamily,
+        fontWeight = FontWeight.W600,
+        fontSize = 14.sp,
+        letterSpacing = 1.2.sp,
+        color = md_theme_light_onPrimary,
+    )
 )

@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import mfaseeh.compose.valorantagents.ui.theme.ValorantAgentsTheme
+import mfaseeh.compose.valorantagents.ui.theme.ValorantAppTheme
 
 
 @SuppressLint("CustomSplashScreen")
@@ -29,7 +29,7 @@ class SplashActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ValorantAgentsTheme {
+            ValorantAppTheme {
                 SplashScreen()
             }
         }
@@ -55,7 +55,9 @@ class SplashActivity : ComponentActivity() {
             Image(
                 painter = painterResource(id = R.drawable.valo_logo),
                 contentDescription = null,
-                modifier = Modifier.alpha(alpha.value).size(64.dp)
+                modifier = Modifier
+                    .alpha(alpha.value)
+                    .size(64.dp)
             )
         }
     }

@@ -17,8 +17,8 @@ internal class AgentsLDSImpl @Inject constructor(val dao: AgentDao) : AgentsLDS 
 
     override fun getAgentId(id: String): Flow<Agent> =
         dao.getAgentById(id).distinctUntilChanged().notNullable().map {
-        it.toAgent()
-    }
+            it.toAgent()
+        }
 
 //    override suspend fun saveAgents(stores: List<Agent>) {
 //        TODO("Not yet implemented")
@@ -26,6 +26,9 @@ internal class AgentsLDSImpl @Inject constructor(val dao: AgentDao) : AgentsLDS 
 
     override suspend fun deleteAgents() = dao.deleteAgents()
 
-    override suspend fun reInsertAgents(agents: List<Agent>) =
-        dao.reInsertAgents(agents.map { it.toAgentEntity() })
+    override suspend fun reInsertAgents(agents: List<Agent>) {
+        val filteredList = agents.filterNot { it.background == null }
+        dao.reInsertAgents(filteredList.map { it.toAgentEntity() })
+    }
+
 }

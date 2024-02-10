@@ -12,5 +12,5 @@ internal interface AgentsLDS {
 
     suspend fun deleteAgents()
 
-    suspend fun reInsertAgents(stores: List<Agent>)
+    suspend fun reInsertAgents(agents: List<Agent>)
 }
