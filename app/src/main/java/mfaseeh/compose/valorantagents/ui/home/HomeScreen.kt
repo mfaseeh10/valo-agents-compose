@@ -1,24 +1,27 @@
 package mfaseeh.compose.valorantagents.ui.home
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,6 +47,7 @@ private fun AllAgentsList(agentsListUiState: AgentsListUiState) {
             LazyVerticalGrid(
                 state = rememberLazyGridState(),
                 columns = GridCells.Fixed(2),
+                contentPadding = PaddingValues(12.dp),
                 modifier = Modifier
                     .fillMaxSize()
             ) {
@@ -69,27 +73,46 @@ private fun AllAgentsList(agentsListUiState: AgentsListUiState) {
 
 @Composable
 private fun AgentItem(agent: Agent) {
-    Box (
+    ElevatedCard(
         modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-    ){
-        Column() {
+            .wrapContentSize()
+            .padding(4.dp),
+        shape = RoundedCornerShape(8.dp),
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(agent.displayIcon)
+                    .data(agent.fullPortrait)
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
                 error = painterResource(R.drawable.ic_broken_image),
                 placeholder = painterResource(R.drawable.loading_img),
-
-                )
+                modifier = Modifier.height(250.dp).padding(2.dp),
+                contentScale = ContentScale.FillHeight
+            )
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = agent.displayName,
                 style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
             )
-            Spacer(modifier = Modifier.width(10.dp))
         }
     }
+}
+
+@Preview
+@Composable
+fun PrevAgentCard() {
+    AgentItem(
+        Agent(
+            uuid = "",
+            displayName = "Breach",
+            displayIcon = "drawable/breach.png",
+            isPlayableCharacter = true,
+            description = "",
+        )
+    )
 }
