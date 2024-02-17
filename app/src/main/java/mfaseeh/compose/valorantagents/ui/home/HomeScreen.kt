@@ -1,53 +1,73 @@
 package mfaseeh.compose.valorantagents.ui.home
 
+import android.util.Log
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Text
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import mfaseeh.compose.valorantagents.R
-import mfaseeh.compose.valorantagents.data.model.Agent
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import mfaseeh.compose.valorantagents.domain.AgentsListUiState
 import mfaseeh.compose.valorantagents.domain.HomeViewModel
+import mfaseeh.compose.valorantagents.ui.home.components.AgentItem
+import mfaseeh.compose.valorantagents.ui.home.components.LoadingView
+import mfaseeh.compose.valorantagents.ui.home.components.shimmerEffect
+import okhttp3.internal.addHeaderLenient
 
 @Composable
 internal fun HomeScreen(
+    modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
-
+    var isVisible by remember {
+        mutableStateOf(true)
+    }
     when (agentsListUiState) {
         is AgentsListUiState.GetAgentsSuccess -> {
-            AllAgentsList(agentsListUiState as AgentsListUiState.GetAgentsSuccess)
+            Column {
+                //todo implement search bar
+//                Column(
+//                    modifier = modifier
+//                        .padding()
+//                        .width(100.dp)
+//                        .height(100.dp)
+//                ) {
+//                    Text(text = "All Agents", modifier = Modifier.padding(8.dp))
+//                    Text(text = "Search your agent")
+//                }
+                AllAgentsList(agentsListUiState as AgentsListUiState.GetAgentsSuccess, modifier)
+            }
         }
 
         is AgentsListUiState.Loading -> {
-            Text(text = "Loading")
+            LoadingView()
         }
 
         is AgentsListUiState.Error -> {
+            //Todo implement later
             Text(text = "An error has occured")
         }
 
@@ -58,14 +78,38 @@ internal fun HomeScreen(
     }
 }
 
+
 @Composable
-private fun AllAgentsList(agentsListUiState: AgentsListUiState.GetAgentsSuccess) {
+internal fun AllAgentsList(
+    agentsListUiState: AgentsListUiState.GetAgentsSuccess,
+    modifier: Modifier,
+    onScrolled: () -> Unit = {}
+) {
+    val gridState = rememberLazyGridState()
+    val scrollState = rememberScrollState()
+
+    LaunchedEffect(key1 = gridState) {
+        val index by derivedStateOf { gridState.isScrollInProgress }
+        snapshotFlow { index }
+            .collect {
+                if (it) {
+                    Log.d("Scroll", "scrolled")
+                } else {
+                    Log.d("Scroll", "not scrolled")
+                }
+
+            }
+    }
     LazyVerticalGrid(
-        state = rememberLazyGridState(),
+        state = gridState,
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(12.dp),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
+            .padding()
+            .scrollable(scrollState, orientation = Orientation.Vertical),
+        userScrollEnabled = true
+
     ) {
         (agentsListUiState.agents).forEachIndexed { _, agent ->
             item {
@@ -75,54 +119,4 @@ private fun AllAgentsList(agentsListUiState: AgentsListUiState.GetAgentsSuccess)
             }
         }
     }
-}
-
-
-
-@Composable
-private fun AgentItem(agent: Agent) {
-    ElevatedCard(
-        modifier = Modifier
-            .wrapContentSize()
-            .padding(4.dp),
-        shape = RoundedCornerShape(8.dp),
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(agent.fullPortrait)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
-                error = painterResource(R.drawable.ic_broken_image),
-                placeholder = painterResource(R.drawable.loading_img),
-                modifier = Modifier
-                    .height(250.dp)
-                    .padding(2.dp),
-                contentScale = ContentScale.FillHeight
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = agent.displayName,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-fun PrevAgentCard() {
-    AgentItem(
-        Agent(
-            uuid = "",
-            displayName = "Breach",
-            displayIcon = "drawable/breach.png",
-            isPlayableCharacter = true,
-            description = "",
-        )
-    )
 }

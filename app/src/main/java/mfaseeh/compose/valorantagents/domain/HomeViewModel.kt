@@ -46,7 +46,6 @@ internal class HomeViewModel @Inject constructor(
                         }
                     }
                 }
-
             }
         }.stateIn(
             viewModelScope,
