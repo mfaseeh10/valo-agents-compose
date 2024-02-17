@@ -37,28 +37,14 @@ internal fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
-    AllAgentsList(agentsListUiState = agentsListUiState)
-}
 
-@Composable
-private fun AllAgentsList(agentsListUiState: AgentsListUiState) {
     when (agentsListUiState) {
         is AgentsListUiState.GetAgentsSuccess -> {
-            LazyVerticalGrid(
-                state = rememberLazyGridState(),
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(12.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                (agentsListUiState.agents).forEachIndexed { _, agent ->
-                    item {
-                        if (agent.isPlayableCharacter) {
-                            AgentItem(agent)
-                        }
-                    }
-                }
-            }
+            AllAgentsList(agentsListUiState as AgentsListUiState.GetAgentsSuccess)
+        }
+
+        is AgentsListUiState.Loading -> {
+            Text(text = "Loading")
         }
 
         is AgentsListUiState.Error -> {
@@ -66,10 +52,32 @@ private fun AllAgentsList(agentsListUiState: AgentsListUiState) {
         }
 
         else -> {
-            Text(text = "No response")
+            Text(text = "No internet connection")
+        }
+
+    }
+}
+
+@Composable
+private fun AllAgentsList(agentsListUiState: AgentsListUiState.GetAgentsSuccess) {
+    LazyVerticalGrid(
+        state = rememberLazyGridState(),
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(12.dp),
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        (agentsListUiState.agents).forEachIndexed { _, agent ->
+            item {
+                if (agent.isPlayableCharacter) {
+                    AgentItem(agent)
+                }
+            }
         }
     }
 }
+
+
 
 @Composable
 private fun AgentItem(agent: Agent) {
@@ -90,7 +98,9 @@ private fun AgentItem(agent: Agent) {
                 contentDescription = null,
                 error = painterResource(R.drawable.ic_broken_image),
                 placeholder = painterResource(R.drawable.loading_img),
-                modifier = Modifier.height(250.dp).padding(2.dp),
+                modifier = Modifier
+                    .height(250.dp)
+                    .padding(2.dp),
                 contentScale = ContentScale.FillHeight
             )
             Spacer(modifier = Modifier.height(10.dp))
