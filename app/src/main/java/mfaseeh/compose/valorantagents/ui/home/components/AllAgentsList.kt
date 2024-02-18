@@ -43,8 +43,8 @@ internal fun AllAgentsList(
     LazyVerticalGrid(
         state = gridState,
         columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(12.dp),
-        modifier = modifier
+        contentPadding = PaddingValues(8.dp),
+        modifier = Modifier
             .fillMaxSize()
             .scrollable(scrollState, orientation = Orientation.Vertical),
         userScrollEnabled = true

@@ -18,3 +18,7 @@ val playfairFontFamily = FontFamily(
     Font(R.font.playfairdisplayblack, FontWeight.W400),
     Font(R.font.playfairdisplayregular, FontWeight.W300)
 )
+
+val valorantFontFamily = FontFamily(
+    Font(R.font.valorant, FontWeight.W400)
+)

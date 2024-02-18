@@ -55,7 +55,7 @@ internal fun AgentItem(agent: Agent) {
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = agent.displayName,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

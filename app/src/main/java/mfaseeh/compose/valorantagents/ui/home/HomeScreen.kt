@@ -41,7 +41,7 @@ internal fun HomeScreen(
     when (agentsListUiState) {
         is AgentsListUiState.GetAgentsSuccess -> {
             Column (
-                verticalArrangement = Arrangement.Top,
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ){
                 HomeScreenHeader(isVisible, modifier)
                 AllAgentsList(agentsListUiState as AgentsListUiState.GetAgentsSuccess, modifier) {
@@ -71,40 +71,35 @@ private fun HomeScreenHeader(
     isVisible: Boolean,
     modifier: Modifier
 ) {
-    Box (modifier = modifier) {
-        AnimatedVisibility(
-            visible = isVisible
-        ) {
-            val annotatedString = buildAnnotatedString {
-                withStyle(style = SpanStyle(MaterialTheme.colorScheme.onPrimaryContainer)) {
-                    append("Get To Know Your\nFavorite")
-                }
-                withStyle(style = SpanStyle(MaterialTheme.colorScheme.primary)) {
-                    append(" Agents")
-                }
+    AnimatedVisibility(
+        visible = isVisible
+    ) {
+        val annotatedString = buildAnnotatedString {
+            withStyle(style = SpanStyle(fontFamily = MaterialTheme.typography.titleMedium.fontFamily)) {
+                append("Get To Know Your\nFavorite")
             }
-            Column(
-                modifier = Modifier
-                    .border(4.dp, MaterialTheme.colorScheme.onPrimaryContainer)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .padding(start = 12.dp)
-                        .wrapContentSize()
-                ) {
-                    Text(text = annotatedString)
-                }
-                Box(
-                    modifier = Modifier
-                        .padding(start = 12.dp)
-                        .wrapContentSize()
-                ) {
-                    Text(text = "Search")
-                }
+            withStyle(style = SpanStyle(fontFamily = MaterialTheme.typography.titleMedium.fontFamily, color = MaterialTheme.colorScheme.primary)) {
+                append(" Agents")
             }
         }
+        Column() {
+            Box(
+                modifier = modifier
+                    .padding(horizontal = 12.dp, vertical = 12.dp)
+                    .wrapContentSize()
+            ) {
+                Text(text = annotatedString, fontSize = MaterialTheme.typography.displaySmall.fontSize)
+            }
+            //Todo implement search
+//          //  Box(
+//          //      modifier = Modifier
+//          //          .padding(start = 12.dp)
+//          //          .wrapContentSize()
+//          //  ) {
+//          //      Text(text = "Search")
+//          //   }
+        }
     }
-
 }
 
 @Preview(showBackground = true)
