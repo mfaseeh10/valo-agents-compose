@@ -1,40 +1,33 @@
 package mfaseeh.compose.valorantagents.ui.home
 
-import android.util.Log
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import mfaseeh.compose.valorantagents.domain.AgentsListUiState
 import mfaseeh.compose.valorantagents.domain.HomeViewModel
-import mfaseeh.compose.valorantagents.ui.home.components.AgentItem
+import mfaseeh.compose.valorantagents.ui.home.components.AllAgentsList
 import mfaseeh.compose.valorantagents.ui.home.components.LoadingView
-import mfaseeh.compose.valorantagents.ui.home.components.shimmerEffect
-import okhttp3.internal.addHeaderLenient
+import mfaseeh.compose.valorantagents.ui.theme.ValorantAppTheme
 
 @Composable
 internal fun HomeScreen(
@@ -47,18 +40,13 @@ internal fun HomeScreen(
     }
     when (agentsListUiState) {
         is AgentsListUiState.GetAgentsSuccess -> {
-            Column {
-                //todo implement search bar
-//                Column(
-//                    modifier = modifier
-//                        .padding()
-//                        .width(100.dp)
-//                        .height(100.dp)
-//                ) {
-//                    Text(text = "All Agents", modifier = Modifier.padding(8.dp))
-//                    Text(text = "Search your agent")
-//                }
-                AllAgentsList(agentsListUiState as AgentsListUiState.GetAgentsSuccess, modifier)
+            Column (
+                verticalArrangement = Arrangement.Top,
+            ){
+                HomeScreenHeader(isVisible, modifier)
+                AllAgentsList(agentsListUiState as AgentsListUiState.GetAgentsSuccess, modifier) {
+                    isVisible = it
+                }
             }
         }
 
@@ -78,45 +66,55 @@ internal fun HomeScreen(
     }
 }
 
-
 @Composable
-internal fun AllAgentsList(
-    agentsListUiState: AgentsListUiState.GetAgentsSuccess,
-    modifier: Modifier,
-    onScrolled: () -> Unit = {}
+private fun HomeScreenHeader(
+    isVisible: Boolean,
+    modifier: Modifier
 ) {
-    val gridState = rememberLazyGridState()
-    val scrollState = rememberScrollState()
-
-    LaunchedEffect(key1 = gridState) {
-        val index by derivedStateOf { gridState.isScrollInProgress }
-        snapshotFlow { index }
-            .collect {
-                if (it) {
-                    Log.d("Scroll", "scrolled")
-                } else {
-                    Log.d("Scroll", "not scrolled")
+    Box (modifier = modifier) {
+        AnimatedVisibility(
+            visible = isVisible
+        ) {
+            val annotatedString = buildAnnotatedString {
+                withStyle(style = SpanStyle(MaterialTheme.colorScheme.onPrimaryContainer)) {
+                    append("Get To Know Your\nFavorite")
                 }
-
+                withStyle(style = SpanStyle(MaterialTheme.colorScheme.primary)) {
+                    append(" Agents")
+                }
             }
-    }
-    LazyVerticalGrid(
-        state = gridState,
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(12.dp),
-        modifier = modifier
-            .fillMaxSize()
-            .padding()
-            .scrollable(scrollState, orientation = Orientation.Vertical),
-        userScrollEnabled = true
-
-    ) {
-        (agentsListUiState.agents).forEachIndexed { _, agent ->
-            item {
-                if (agent.isPlayableCharacter) {
-                    AgentItem(agent)
+            Column(
+                modifier = Modifier
+                    .border(4.dp, MaterialTheme.colorScheme.onPrimaryContainer)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                        .wrapContentSize()
+                ) {
+                    Text(text = annotatedString)
+                }
+                Box(
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                        .wrapContentSize()
+                ) {
+                    Text(text = "Search")
                 }
             }
         }
     }
+
 }
+
+@Preview(showBackground = true)
+@Composable
+fun prevHeader(){
+   ValorantAppTheme {
+        Surface {
+            HomeScreenHeader(true, Modifier.wrapContentSize())
+        }
+   }
+}
+
+
