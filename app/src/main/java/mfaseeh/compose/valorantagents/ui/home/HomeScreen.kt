@@ -31,7 +31,8 @@ import mfaseeh.compose.valorantagents.ui.theme.ValorantAppTheme
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onClick: () -> Unit
 ) {
     val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
     var isVisible by remember {
@@ -43,7 +44,11 @@ internal fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ){
                 HomeScreenHeader(isVisible, modifier)
-                AllAgentsList(agentsListUiState as AgentsListUiState.GetAgentsSuccess, modifier) {
+                AllAgentsList(
+                    agentsListUiState as AgentsListUiState.GetAgentsSuccess,
+                    modifier,
+                    onClick = onClick
+                ) {
                     isVisible = it
                 }
             }

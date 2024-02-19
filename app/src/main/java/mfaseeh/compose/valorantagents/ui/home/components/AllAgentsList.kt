@@ -19,6 +19,7 @@ import mfaseeh.compose.valorantagents.domain.AgentsListUiState
 internal fun AllAgentsList(
     agentsListUiState: AgentsListUiState.GetAgentsSuccess,
     modifier: Modifier,
+    onClick: () -> Unit,
     onScrolled: (Boolean) -> Unit = {}
 ) {
     val gridState = rememberLazyGridState()
@@ -45,7 +46,7 @@ internal fun AllAgentsList(
         (agentsListUiState.agents).forEachIndexed { _, agent ->
             item {
                 if (agent.isPlayableCharacter) {
-                    AgentItem(agent)
+                    AgentItem(agent, onClick =  onClick)
                 }
             }
         }

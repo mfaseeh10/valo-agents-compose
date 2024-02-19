@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,8 +24,9 @@ import coil.request.ImageRequest
 import mfaseeh.compose.valorantagents.R
 import mfaseeh.compose.valorantagents.data.model.Agent
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun AgentItem(agent: Agent) {
+internal fun AgentItem(agent: Agent, onClick: () -> Unit = {}){
     Card(
         modifier = Modifier
             .wrapContentSize()
@@ -32,7 +34,8 @@ internal fun AgentItem(agent: Agent) {
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        )
+        ),
+        onClick = onClick
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
