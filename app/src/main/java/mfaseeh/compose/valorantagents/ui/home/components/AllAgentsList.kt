@@ -1,15 +1,11 @@
 package mfaseeh.compose.valorantagents.ui.home.components
 
 import android.util.Log
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -26,7 +22,6 @@ internal fun AllAgentsList(
     onScrolled: (Boolean) -> Unit = {}
 ) {
     val gridState = rememberLazyGridState()
-    val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = gridState) {
         val index by derivedStateOf { gridState.firstVisibleItemIndex }
@@ -46,9 +41,6 @@ internal fun AllAgentsList(
         contentPadding = PaddingValues(8.dp),
         modifier = Modifier
             .fillMaxSize()
-            .scrollable(scrollState, orientation = Orientation.Vertical),
-        userScrollEnabled = true
-
     ) {
         (agentsListUiState.agents).forEachIndexed { _, agent ->
             item {

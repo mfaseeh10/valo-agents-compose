@@ -1,7 +1,6 @@
 package mfaseeh.compose.valorantagents.ui.home
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -75,7 +74,7 @@ private fun HomeScreenHeader(
         visible = isVisible
     ) {
         val annotatedString = buildAnnotatedString {
-            withStyle(style = SpanStyle(fontFamily = MaterialTheme.typography.titleMedium.fontFamily)) {
+            withStyle(style = SpanStyle(fontFamily = MaterialTheme.typography.titleMedium.fontFamily, color = MaterialTheme.colorScheme.onSurface)) {
                 append("Get To Know Your\nFavorite")
             }
             withStyle(style = SpanStyle(fontFamily = MaterialTheme.typography.titleMedium.fontFamily, color = MaterialTheme.colorScheme.primary)) {
