@@ -33,8 +33,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
-
-
 @Composable
 internal fun LoadingView() {
     LazyVerticalGrid(

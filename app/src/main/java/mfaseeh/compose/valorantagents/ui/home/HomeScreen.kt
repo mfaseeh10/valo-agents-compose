@@ -1,119 +1,53 @@
 package mfaseeh.compose.valorantagents.ui.home
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import mfaseeh.compose.valorantagents.domain.AgentsListUiState
-import mfaseeh.compose.valorantagents.domain.HomeViewModel
-import mfaseeh.compose.valorantagents.ui.home.components.AllAgentsList
-import mfaseeh.compose.valorantagents.ui.home.components.LoadingView
-import mfaseeh.compose.valorantagents.ui.theme.ValorantAppTheme
+import androidx.navigation.NavHostController
+import mfaseeh.compose.valorantagents.ui.home.components.HomeScreenBody
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun HomeScreen(
-    modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel(),
-    onClick: () -> Unit
-) {
-    val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
-    var isVisible by remember {
-        mutableStateOf(true)
-    }
-    when (agentsListUiState) {
-        is AgentsListUiState.GetAgentsSuccess -> {
-            Column (
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ){
-                HomeScreenHeader(isVisible, modifier)
-                AllAgentsList(
-                    agentsListUiState as AgentsListUiState.GetAgentsSuccess,
-                    modifier,
-                    onClick = onClick
+fun HomeScreen(navController: NavHostController) {
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface),
+        topBar = {
+            TopAppBar(
+                backgroundColor = MaterialTheme.colorScheme.surface
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
                 ) {
-                    isVisible = it
+                    Text(
+                        text = "Valorant Agents",
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurface
+                        ),
+                    )
                 }
             }
         }
-
-        is AgentsListUiState.Loading -> {
-            LoadingView()
-        }
-
-        is AgentsListUiState.Error -> {
-            //Todo implement later
-            Text(text = "An error has occured")
-        }
-
-        else -> {
-            Text(text = "No internet connection")
-        }
-
+    ) { paddingValues ->
+        HomeScreenBody(
+            modifier = Modifier.padding(paddingValues),
+            onClick = {
+                navController.navigate("agent-details")
+            }
+        )
     }
 }
-
-@Composable
-private fun HomeScreenHeader(
-    isVisible: Boolean,
-    modifier: Modifier
-) {
-    AnimatedVisibility(
-        visible = isVisible
-    ) {
-        val annotatedString = buildAnnotatedString {
-            withStyle(style = SpanStyle(fontFamily = MaterialTheme.typography.titleMedium.fontFamily, color = MaterialTheme.colorScheme.onSurface)) {
-                append("Get To Know Your\nFavorite")
-            }
-            withStyle(style = SpanStyle(fontFamily = MaterialTheme.typography.titleMedium.fontFamily, color = MaterialTheme.colorScheme.primary)) {
-                append(" Agents")
-            }
-        }
-        Column() {
-            Box(
-                modifier = modifier
-                    .padding(horizontal = 12.dp, vertical = 12.dp)
-                    .wrapContentSize()
-            ) {
-                Text(text = annotatedString, fontSize = MaterialTheme.typography.displaySmall.fontSize)
-            }
-            //Todo implement search
-//          //  Box(
-//          //      modifier = Modifier
-//          //          .padding(start = 12.dp)
-//          //          .wrapContentSize()
-//          //  ) {
-//          //      Text(text = "Search")
-//          //   }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun prevHeader(){
-   ValorantAppTheme {
-        Surface {
-            HomeScreenHeader(true, Modifier.wrapContentSize())
-        }
-   }
-}
-
-
