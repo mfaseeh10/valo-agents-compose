@@ -1,5 +1,6 @@
 package mfaseeh.compose.valorantagents.ui.home.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -24,18 +25,17 @@ import coil.request.ImageRequest
 import mfaseeh.compose.valorantagents.R
 import mfaseeh.compose.valorantagents.data.model.Agent
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AgentItem(agent: Agent, onClick: () -> Unit = {}){
     Card(
         modifier = Modifier
             .wrapContentSize()
-            .padding(4.dp),
+            .padding(4.dp)
+            .clickable { onClick()  },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
         ),
-        onClick = onClick
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

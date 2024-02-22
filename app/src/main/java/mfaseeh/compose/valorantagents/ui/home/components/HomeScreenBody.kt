@@ -29,10 +29,10 @@ import mfaseeh.compose.valorantagents.ui.theme.ValorantAppTheme
 @Composable
 internal fun HomeScreenBody(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel(),
+  agentsListUiState: AgentsListUiState,
     onClick: () -> Unit
 ) {
-    val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
+
     var isVisible by remember {
         mutableStateOf(true)
     }

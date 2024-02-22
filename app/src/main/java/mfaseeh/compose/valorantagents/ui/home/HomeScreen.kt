@@ -14,12 +14,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import mfaseeh.compose.valorantagents.domain.AgentsListUiState
 import mfaseeh.compose.valorantagents.ui.home.components.HomeScreenBody
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController) {
+internal fun HomeScreen(navController: NavHostController, agentsListUiState: AgentsListUiState) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -45,6 +46,7 @@ fun HomeScreen(navController: NavHostController) {
     ) { paddingValues ->
         HomeScreenBody(
             modifier = Modifier.padding(paddingValues),
+            agentsListUiState = agentsListUiState,
             onClick = {
                 navController.navigate("agent-details")
             }
