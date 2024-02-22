@@ -9,7 +9,7 @@ import mfaseeh.compose.valorantagents.R
 import mfaseeh.compose.valorantagents.common.ResultState
 import mfaseeh.compose.valorantagents.common.exception.CustomException
 import mfaseeh.compose.valorantagents.data.local.source.AgentsLDS
-import mfaseeh.compose.valorantagents.data.model.Agent
+import mfaseeh.compose.valorantagents.data.remote.model.Agent
 import mfaseeh.compose.valorantagents.data.remote.source.AgentsRDS
 import mfaseeh.compose.valorantagents.domain.repository.AgentRepository
 import javax.inject.Inject
@@ -42,6 +42,13 @@ internal class AgentRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAgentDetails(uuid: String) = flow {
+        agentsLDS.getAgentId(uuid)
+            .catch { emit(ResultState.Error(CustomException(it.message ?: ""))) }
+            .collect {
+                emit(ResultState.Success(it))
+            }
+    }
 
 
 }

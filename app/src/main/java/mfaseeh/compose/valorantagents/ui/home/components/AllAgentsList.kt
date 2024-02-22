@@ -13,7 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import mfaseeh.compose.valorantagents.domain.AgentsListUiState
+import mfaseeh.compose.valorantagents.ui.home.uistates.AgentsListUiState
 
 @Composable
 internal fun AllAgentsList(

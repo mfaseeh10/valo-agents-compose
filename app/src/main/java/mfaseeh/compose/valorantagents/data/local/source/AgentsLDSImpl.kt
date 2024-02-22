@@ -7,7 +7,7 @@ import mfaseeh.compose.valorantagents.common.extensions.notNullable
 import mfaseeh.compose.valorantagents.data.local.dao.AgentDao
 import mfaseeh.compose.valorantagents.data.mapper.toAgent
 import mfaseeh.compose.valorantagents.data.mapper.toAgentEntity
-import mfaseeh.compose.valorantagents.data.model.Agent
+import mfaseeh.compose.valorantagents.data.remote.model.Agent
 import javax.inject.Inject
 
 internal class AgentsLDSImpl @Inject constructor(val dao: AgentDao) : AgentsLDS {

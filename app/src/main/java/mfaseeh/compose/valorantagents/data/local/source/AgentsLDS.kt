@@ -1,7 +1,7 @@
 package mfaseeh.compose.valorantagents.data.local.source
 
 import kotlinx.coroutines.flow.Flow
-import mfaseeh.compose.valorantagents.data.model.Agent
+import mfaseeh.compose.valorantagents.data.remote.model.Agent
 
 internal interface AgentsLDS {
     fun getAgents(): Flow<List<Agent>>

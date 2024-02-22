@@ -1,7 +1,8 @@
 package mfaseeh.compose.valorantagents.data.mapper
 
 import mfaseeh.compose.valorantagents.data.local.entity.AgentEntity
-import mfaseeh.compose.valorantagents.data.model.Agent
+import mfaseeh.compose.valorantagents.data.remote.model.Agent
+import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
 
 internal fun AgentEntity.toAgent() = Agent(
     uuid = this.uuid,

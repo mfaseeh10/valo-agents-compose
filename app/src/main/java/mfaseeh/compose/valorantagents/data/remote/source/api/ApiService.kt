@@ -1,6 +1,6 @@
 package mfaseeh.compose.valorantagents.data.remote.source.api
 
-import mfaseeh.compose.valorantagents.data.model.AgentResponse
+import mfaseeh.compose.valorantagents.data.remote.model.AgentResponse
 import retrofit2.http.GET
 
 interface ApiService {
