@@ -1,6 +1,7 @@
 package mfaseeh.compose.valorantagents.ui.home.uistates
 
 import mfaseeh.compose.valorantagents.data.remote.model.Agent
+import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
 
 internal sealed interface AgentDetailUiState {
     object Init : AgentDetailUiState
@@ -10,7 +11,7 @@ internal sealed interface AgentDetailUiState {
     object NoInternetConnection : AgentDetailUiState
 
     data class Success(
-        val agentDetail: Agent,
+        val agentDetail: AgentUiModel,
     ) :
         AgentDetailUiState
 }

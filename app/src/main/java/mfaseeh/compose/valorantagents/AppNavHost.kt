@@ -16,6 +16,7 @@ import androidx.navigation.navigation
 import mfaseeh.compose.valorantagents.ui.home.viewmodel.HomeViewModel
 import mfaseeh.compose.valorantagents.ui.home.HomeScreen
 import mfaseeh.compose.valorantagents.ui.home.components.AgentDetail
+import mfaseeh.compose.valorantagents.ui.home.viewmodel.AgentUIEvent
 
 @Composable
 internal fun AppNavHost(
@@ -32,7 +33,9 @@ internal fun AppNavHost(
             composable(Screen.Home.HomeScreen.route) {
                 val viewModel = it.sharedViewModel<HomeViewModel>(navController = navController)
                 val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
-                HomeScreen(navController = navController, agentsListUiState = agentsListUiState)
+                HomeScreen(navController = navController, agentsListUiState = agentsListUiState) {uuid ->
+                    viewModel.onEvent(AgentUIEvent.OnClickAgent(uuid))
+                }
             }
             composable(Screen.Home.AgentDetail.route) {
                 val viewModel = it.sharedViewModel<HomeViewModel>(navController = navController)

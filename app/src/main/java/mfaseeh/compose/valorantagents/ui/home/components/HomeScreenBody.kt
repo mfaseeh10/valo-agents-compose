@@ -27,7 +27,7 @@ import mfaseeh.compose.valorantagents.ui.theme.ValorantAppTheme
 internal fun HomeScreenBody(
     modifier: Modifier = Modifier,
     agentsListUiState: AgentsListUiState,
-    onClick: () -> Unit
+    onClick: (String) -> Unit
 ) {
 
     var isVisible by remember {

@@ -19,7 +19,7 @@ import mfaseeh.compose.valorantagents.ui.home.uistates.AgentsListUiState
 internal fun AllAgentsList(
     agentsListUiState: AgentsListUiState.GetAgentsSuccess,
     modifier: Modifier,
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
     onScrolled: (Boolean) -> Unit = {}
 ) {
     val gridState = rememberLazyGridState()

@@ -20,7 +20,11 @@ import mfaseeh.compose.valorantagents.ui.home.uistates.AgentsListUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun HomeScreen(navController: NavHostController, agentsListUiState: AgentsListUiState) {
+internal fun HomeScreen(
+    navController: NavHostController,
+    agentsListUiState: AgentsListUiState,
+    onClick: (String) -> Unit
+) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -47,9 +51,7 @@ internal fun HomeScreen(navController: NavHostController, agentsListUiState: Age
         HomeScreenBody(
             modifier = Modifier.padding(paddingValues),
             agentsListUiState = agentsListUiState,
-            onClick = {
-                navController.navigate("agent-details")
-            }
+            onClick = onClick
         )
     }
 }

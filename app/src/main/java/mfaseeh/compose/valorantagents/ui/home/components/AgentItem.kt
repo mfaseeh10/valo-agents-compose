@@ -26,12 +26,12 @@ import mfaseeh.compose.valorantagents.data.remote.model.Agent
 import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
 
 @Composable
-internal fun AgentItem(agent: AgentUiModel, onClick: () -> Unit = {}){
+internal fun AgentItem(agent: AgentUiModel, onClick: (String) -> Unit = {}){
     Card(
         modifier = Modifier
             .wrapContentSize()
             .padding(4.dp)
-            .clickable { onClick()  },
+            .clickable { onClick(agent.uuid)  },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
