@@ -14,11 +14,11 @@ import mfaseeh.compose.valorantagents.data.remote.source.AgentsRDS
 import mfaseeh.compose.valorantagents.domain.repository.AgentRepository
 import javax.inject.Inject
 
-internal class AgentRepositoryImpl @Inject constructor(
+internal class AgentRepositoryImpl @Inject constructor (
     private val agentsRDS: AgentsRDS,
     private val agentsLDS: AgentsLDS,
     private val context: Application
-    ) : AgentRepository {
+) : AgentRepository {
 
     init {
         val appName =  context.getString(R.string.app_name)
