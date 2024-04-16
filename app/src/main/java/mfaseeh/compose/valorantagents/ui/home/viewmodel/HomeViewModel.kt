@@ -3,10 +3,13 @@ package mfaseeh.compose.valorantagents.ui.home.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import mfaseeh.compose.valorantagents.common.ResultState
@@ -24,20 +27,16 @@ internal class HomeViewModel @Inject constructor(
     private val agentDetails: GetAgentDetails
 ) : ViewModel() {
 
-    var agentsDetailsUiState: StateFlow<AgentDetailUiState> = MutableStateFlow(AgentDetailUiState.Init)
+    private val agentUuid = MutableStateFlow("")
 
-    fun onEvent(event: AgentUIEvent) {
-        when (event) {
-            is AgentUIEvent.OnClickAgent -> {
-                agentsDetailsUiState = getAgentDetailsStream(event.uuid).stateIn(
-                    viewModelScope,
-                    SharingStarted.WhileSubscribed(),
-                    AgentDetailUiState.Loading
-                )
-                Log.d("AgentDetail", "${agentsDetailsUiState.value}")
-            }
-        }
-    }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val agentsDetailsUiState: StateFlow<AgentDetailUiState> =
+        agentUuid.flatMapLatest { uuid -> getAgentDetailsStream(uuid) }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(),
+            AgentDetailUiState.Loading
+        )
+
 
     val agentsListUiState: StateFlow<AgentsListUiState> =
         getAgentListStream().stateIn(
@@ -90,6 +89,9 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
+    fun getAgentDetails(uuid: String) {
+        agentUuid.tryEmit(uuid)
+    }
 
 
 }
