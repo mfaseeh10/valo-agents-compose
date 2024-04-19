@@ -14,45 +14,43 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.navigation.navigation
 import mfaseeh.compose.valorantagents.ui.home.viewmodel.HomeViewModel
 import mfaseeh.compose.valorantagents.ui.home.HomeScreen
-import mfaseeh.compose.valorantagents.ui.home.components.AgentDetail
+import mfaseeh.compose.valorantagents.ui.home.AgentDetail
+import mfaseeh.compose.valorantagents.ui.home.viewmodel.AgentDetailViewModel
 
 @Composable
 internal fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = Screen.Home.route
+    startDestination: String = Screen.HomeScreen.route
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
-        navigation(startDestination = Screen.Home.HomeScreen.route, route = Screen.Home.route) {
-            composable(Screen.Home.HomeScreen.route) {
-                val viewModel = it.sharedViewModel<HomeViewModel>(navController = navController)
-                val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
-                HomeScreen(
-                    navController = navController,
-                    agentsListUiState = agentsListUiState
-                ) { uuid ->
-                    navController.navigate(Screen.Home.AgentDetail.route + "/$uuid")
-                }
+        composable(Screen.HomeScreen.route) {
+            val viewModel = hiltViewModel<HomeViewModel>()
+            val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
+            HomeScreen(
+                navController = navController,
+                agentsListUiState = agentsListUiState
+            ) { uuid ->
+                navController.navigate(Screen.AgentDetail.route + "/$uuid")
             }
-            composable(
-                route = Screen.Home.AgentDetail.route + "/{uuid}",
-                arguments = listOf(
-                    navArgument("uuid") { type = NavType.StringType }
-                )
-            ) {
-                val uuid = it.arguments?.getString("uuid")
-                val viewModel = it.sharedViewModel<HomeViewModel>(navController = navController)
-                viewModel.getAgentDetails(uuid = uuid ?: "")
-                val agentsDetailUiState by viewModel.agentsDetailsUiState.collectAsStateWithLifecycle()
-                AgentDetail(agentsDetailUiState)
-            }
+        }
+        composable(
+            route = Screen.AgentDetail.route + "/{uuid}",
+            arguments = listOf(
+                navArgument("uuid") { type = NavType.StringType }
+            )
+        ) {
+            val uuid = it.arguments?.getString("uuid")
+            val viewModel = hiltViewModel<AgentDetailViewModel>()
+            viewModel.getAgentDetails(uuid = uuid ?: "")
+            val agentsDetailUiState by viewModel.agentsDetailsUiState.collectAsStateWithLifecycle()
+            AgentDetail(agentsDetailUiState)
         }
     }
 
@@ -68,10 +66,7 @@ inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(navControll
 }
 
 sealed class Screen(val route: String) {
-    object Home : Screen("home") {
-        object AgentDetail : Screen("agent-details")
-        object HomeScreen : Screen("home-screen")
-    }
-
+    object AgentDetail : Screen("agent-details")
+    object HomeScreen : Screen("home-screen")
 }
 

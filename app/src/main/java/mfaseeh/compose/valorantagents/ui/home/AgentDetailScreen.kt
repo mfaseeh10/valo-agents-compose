@@ -1,4 +1,4 @@
-package mfaseeh.compose.valorantagents.ui.home.components
+package mfaseeh.compose.valorantagents.ui.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

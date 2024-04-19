@@ -1,9 +1,8 @@
 package mfaseeh.compose.valorantagents.ui.home.viewmodel
 
-import android.util.Log
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,46 +15,48 @@ import mfaseeh.compose.valorantagents.common.ResultState
 import mfaseeh.compose.valorantagents.common.exception.NoInternetException
 import mfaseeh.compose.valorantagents.common.getErrorMessage
 import mfaseeh.compose.valorantagents.domain.usecase.agent.GetAgentDetails
-import mfaseeh.compose.valorantagents.domain.usecase.agent.GetAgents
 import mfaseeh.compose.valorantagents.ui.home.uistates.AgentDetailUiState
-import mfaseeh.compose.valorantagents.ui.home.uistates.AgentsListUiState
 import javax.inject.Inject
 
 @HiltViewModel
-internal class HomeViewModel @Inject constructor(
-    private val getAgents: GetAgents,
+internal class AgentDetailViewModel @Inject constructor(
+    private val agentDetails: GetAgentDetails
 ) : ViewModel() {
 
-    val agentsListUiState: StateFlow<AgentsListUiState> =
-        getAgentListStream().stateIn(
+    private val agentUuid = MutableStateFlow("")
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val agentsDetailsUiState: StateFlow<AgentDetailUiState> =
+        agentUuid.flatMapLatest { uuid -> getAgentDetailsStream(uuid) }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(),
-            AgentsListUiState.Loading
+            AgentDetailUiState.Loading
         )
 
-    private fun getAgentListStream() = getAgents.invoke().map { result ->
+    private fun getAgentDetailsStream(uuid: String) = agentDetails.invoke(uuid).map { result ->
         when (result) {
             is ResultState.Success -> {
-                if (result.data.isEmpty()) {
-                    AgentsListUiState.Error("No data")
-                } else {
-                    AgentsListUiState.GetAgentsSuccess(result.data)
-                }
+                AgentDetailUiState.Success(result.data)
             }
 
             is ResultState.Error -> {
                 when (result.exception) {
                     is NoInternetException -> {
-                        AgentsListUiState.NoInternetConnection
+                        AgentDetailUiState.NoInternetConnection
                     }
 
                     else -> {
-                        AgentsListUiState.Error(result.getErrorMessage())
+                        AgentDetailUiState.Error(result.getErrorMessage())
                     }
                 }
             }
         }
     }
+
+    fun getAgentDetails(uuid: String) {
+        agentUuid.tryEmit(uuid)
+    }
+
 
 }
 
