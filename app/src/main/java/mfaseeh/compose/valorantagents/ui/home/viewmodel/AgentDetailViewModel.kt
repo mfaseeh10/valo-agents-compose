@@ -40,15 +40,7 @@ internal class AgentDetailViewModel @Inject constructor(
             }
 
             is ResultState.Error -> {
-                when (result.exception) {
-                    is NoInternetException -> {
-                        AgentDetailUiState.NoInternetConnection
-                    }
-
-                    else -> {
-                        AgentDetailUiState.Error(result.getErrorMessage())
-                    }
-                }
+                AgentDetailUiState.Error(result.getErrorMessage())
             }
         }
     }

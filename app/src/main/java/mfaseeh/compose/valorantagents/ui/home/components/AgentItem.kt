@@ -34,7 +34,7 @@ internal fun AgentItem(agent: AgentUiModel, onClick: (String) -> Unit = {}){
             .clickable { onClick(agent.uuid)  },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
         ),
     ) {
         Column(
@@ -59,7 +59,7 @@ internal fun AgentItem(agent: AgentUiModel, onClick: (String) -> Unit = {}){
             Text(
                 text = agent.displayName,
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSecondaryContainer
             )
         }
     }

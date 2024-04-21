@@ -8,8 +8,6 @@ internal sealed interface AgentDetailUiState {
     object Loading : AgentDetailUiState
     data class Error(val message: String) : AgentDetailUiState
 
-    object NoInternetConnection : AgentDetailUiState
-
     data class Success(
         val agentDetail: AgentUiModel,
     ) :

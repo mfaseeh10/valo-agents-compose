@@ -5,6 +5,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import com.example.compose.Pink40
+import com.example.compose.Pink80
+import com.example.compose.blackV
 import com.example.compose.md_theme_dark_background
 import com.example.compose.md_theme_dark_error
 import com.example.compose.md_theme_dark_errorContainer
@@ -116,7 +120,7 @@ private val DarkColors = darkColorScheme(
     errorContainer = md_theme_dark_errorContainer,
     onError = md_theme_dark_onError,
     onErrorContainer = md_theme_dark_onErrorContainer,
-    background = md_theme_dark_background,
+    background = blackV,
     onBackground = md_theme_dark_onBackground,
     surface = md_theme_dark_surface,
     onSurface = md_theme_dark_onSurface,
@@ -130,6 +134,10 @@ private val DarkColors = darkColorScheme(
     outlineVariant = md_theme_dark_outlineVariant,
     scrim = md_theme_dark_scrim,
 )
+
+
+
+
 
 @Composable
 fun ValorantAppTheme(

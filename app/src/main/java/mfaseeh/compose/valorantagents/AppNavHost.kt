@@ -16,7 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import mfaseeh.compose.valorantagents.ui.home.viewmodel.HomeViewModel
 import mfaseeh.compose.valorantagents.ui.home.HomeScreen
-import mfaseeh.compose.valorantagents.ui.home.AgentDetail
+import mfaseeh.compose.valorantagents.ui.home.AgentDetailScreen
 import mfaseeh.compose.valorantagents.ui.home.viewmodel.AgentDetailViewModel
 
 @Composable
@@ -34,7 +34,6 @@ internal fun AppNavHost(
             val viewModel = hiltViewModel<HomeViewModel>()
             val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
             HomeScreen(
-                navController = navController,
                 agentsListUiState = agentsListUiState
             ) { uuid ->
                 navController.navigate(Screen.AgentDetail.route + "/$uuid")
@@ -50,7 +49,7 @@ internal fun AppNavHost(
             val viewModel = hiltViewModel<AgentDetailViewModel>()
             viewModel.getAgentDetails(uuid = uuid ?: "")
             val agentsDetailUiState by viewModel.agentsDetailsUiState.collectAsStateWithLifecycle()
-            AgentDetail(agentsDetailUiState)
+            AgentDetailScreen(agentsDetailUiState)
         }
     }
 

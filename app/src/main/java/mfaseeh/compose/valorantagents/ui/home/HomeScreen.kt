@@ -21,7 +21,6 @@ import mfaseeh.compose.valorantagents.ui.home.uistates.AgentsListUiState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HomeScreen(
-    navController: NavHostController,
     agentsListUiState: AgentsListUiState,
     onClick: (String) -> Unit
 ) {
@@ -31,7 +30,7 @@ internal fun HomeScreen(
             .background(MaterialTheme.colorScheme.surface),
         topBar = {
             TopAppBar(
-                backgroundColor = MaterialTheme.colorScheme.surface
+                backgroundColor = MaterialTheme.colorScheme.background
             ) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
@@ -41,7 +40,7 @@ internal fun HomeScreen(
                     Text(
                         text = "Valorant Agents",
                         style = MaterialTheme.typography.titleMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onBackground
                         ),
                     )
                 }
