@@ -21,7 +21,7 @@ val valorantAgentsTypography = Typography(
         lineHeight = 52.sp
     ),
     displaySmall = TextStyle(
-        fontFamily = playfairFontFamily,
+        fontFamily = valorantFontFamily,
         fontWeight = FontWeight.W400,
         fontSize = 36.sp,
         lineHeight = 44.sp,

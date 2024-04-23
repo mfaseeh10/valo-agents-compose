@@ -3,6 +3,7 @@ package mfaseeh.compose.valorantagents.ui.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,7 +46,9 @@ internal fun AgentDetailScreen(agentDetailUiState: AgentDetailUiState) {
 
 @Composable
 fun AgentDetailBody(agent: AgentUiModel) {
-    Column(modifier = Modifier.fillMaxSize().background(color = MaterialTheme.colorScheme.background)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(color = MaterialTheme.colorScheme.background)) {
         Box(
             modifier = Modifier
                 .wrapContentSize()
@@ -71,14 +74,17 @@ fun AgentDetailBody(agent: AgentUiModel) {
                     .fillMaxHeight(0.7f)
             )
         }
-
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = agent.displayName,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.displaySmall,
             color = MaterialTheme.colorScheme.onBackground
         )
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = agent.description,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }
