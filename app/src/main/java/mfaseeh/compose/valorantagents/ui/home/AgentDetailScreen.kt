@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
@@ -35,7 +36,7 @@ internal fun AgentDetailScreen(agentDetailUiState: AgentDetailUiState) {
         }
 
         is AgentDetailUiState.Loading -> {
-            Text(text = "Loading")
+//            Text(text = "Loading")
         }
 
         is AgentDetailUiState.Success -> {
@@ -55,7 +56,6 @@ fun AgentDetailBody(agent: AgentUiModel) {
         ) {
             AsyncImage(
                 model = agent.background,
-                placeholder = painterResource(id = R.drawable.background_jett),
                 contentDescription = null,
                 alignment = Alignment.TopCenter,
                 contentScale = ContentScale.Crop,
@@ -65,7 +65,6 @@ fun AgentDetailBody(agent: AgentUiModel) {
             )
             AsyncImage(
                 model = agent.fullPortraitV2,
-                placeholder = painterResource(id = R.drawable.fullportrait_jett),
                 contentDescription = null,
                 alignment = Alignment.TopCenter,
                 contentScale = ContentScale.Crop,
@@ -78,13 +77,15 @@ fun AgentDetailBody(agent: AgentUiModel) {
         Text(
             text = agent.displayName,
             style = MaterialTheme.typography.displaySmall,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = agent.description,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
     }
 }
