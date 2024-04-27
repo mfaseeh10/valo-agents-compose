@@ -13,5 +13,6 @@ internal data class AgentEntity(
     val description: String,
     val fullPortrait: String? = "",
     val fullPortraitV2: String? = "",
-    val background: String? = ""
+    val background: String? = "",
+    val roleEntity: RoleEntity
 )

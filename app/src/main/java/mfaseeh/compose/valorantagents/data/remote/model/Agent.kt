@@ -20,7 +20,23 @@ data class Agent(
     @Json(name = "fullPortraitV2")
     val fullPortraitV2: String? = "",
     @Json(name = "background")
-    val background: String? = ""
+    val background: String? = "",
+    @Json(name = "role")
+    val role: Role? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class Role(
+    @Json(name = "uuid")
+    val uuid: String = "",
+    @Json(name = "displayIcon")
+    val displayIcon: String = "",
+    @Json(name = "displayName")
+    val displayName: String = "",
+    @Json(name = "assetPath")
+    val assetPath: String = "",
+    @Json(name = "description")
+    val description: String = ""
 )
 
 @JsonClass(generateAdapter = true)

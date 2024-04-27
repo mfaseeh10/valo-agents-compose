@@ -11,6 +11,7 @@ import dagger.hilt.components.SingletonComponent
 import mfaseeh.compose.valorantagents.data.local.dao.AgentDao
 import mfaseeh.compose.valorantagents.data.local.source.AgentsLDS
 import mfaseeh.compose.valorantagents.data.local.source.AgentsLDSImpl
+import mfaseeh.compose.valorantagents.data.local.typeconverters.DatabaseTypeConverter
 import javax.inject.Singleton
 
 @Module
@@ -29,8 +30,7 @@ internal object ValoAgentsLocalModule {
             context,
             ValoAgentDatabase::class.java,
             ValoAgentDatabase::class.java.simpleName
-        )
-            .fallbackToDestructiveMigration() // recreate db if schema mismatch and no migration found
+        ).fallbackToDestructiveMigration() // recreate db if schema mismatch and no migration found
             .build()
     }
 

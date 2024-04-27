@@ -1,8 +1,9 @@
 package mfaseeh.compose.valorantagents.data.mapper
 
 import mfaseeh.compose.valorantagents.data.local.entity.AgentEntity
+import mfaseeh.compose.valorantagents.data.local.entity.RoleEntity
 import mfaseeh.compose.valorantagents.data.remote.model.Agent
-import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
+import mfaseeh.compose.valorantagents.data.remote.model.Role
 
 internal fun AgentEntity.toAgent() = Agent(
     uuid = this.uuid,
@@ -12,7 +13,8 @@ internal fun AgentEntity.toAgent() = Agent(
     description = this.description,
     fullPortrait = this.fullPortrait,
     fullPortraitV2 = this.fullPortraitV2,
-    background = this.background
+    background = this.background,
+    role = this.roleEntity.toRole()
 )
 
 internal fun Agent.toAgentEntity() = AgentEntity(
@@ -23,5 +25,17 @@ internal fun Agent.toAgentEntity() = AgentEntity(
     description = this.description,
     fullPortrait = this.fullPortrait,
     fullPortraitV2 = this.fullPortraitV2,
-    background = this.background
+    background = this.background,
+    roleEntity = this.role?.toRoleEntity() ?: RoleEntity()
+)
+
+internal fun RoleEntity.toRole() = Role(
+    uuid = this.uuid,
+    displayName = this.displayName,
+    displayIcon = this.displayIcon,
+)
+internal fun Role.toRoleEntity() = RoleEntity(
+    uuid = this.uuid,
+    displayName = this.displayName,
+    displayIcon = this.displayIcon,
 )

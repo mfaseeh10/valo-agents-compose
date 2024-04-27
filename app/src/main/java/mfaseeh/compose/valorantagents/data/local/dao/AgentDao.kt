@@ -3,9 +3,11 @@ package mfaseeh.compose.valorantagents.data.local.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.TypeConverter
 import kotlinx.coroutines.flow.Flow
 import mfaseeh.compose.valorantagents.data.local.base.BaseDao
 import mfaseeh.compose.valorantagents.data.local.entity.AgentEntity
+import mfaseeh.compose.valorantagents.data.local.typeconverters.DatabaseTypeConverter
 
 @Dao
 internal interface AgentDao: BaseDao<AgentEntity> {

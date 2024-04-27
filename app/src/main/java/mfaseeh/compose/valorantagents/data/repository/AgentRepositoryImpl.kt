@@ -26,7 +26,9 @@ internal class AgentRepositoryImpl @Inject constructor (
     }
     override suspend fun getAgents(): Flow<ResultState<List<Agent>>> = flow {
         agentsRDS.fetchAgents().collect { result ->
+            Log.d("Agents", "Result: $result")
             if(result is ResultState.Success){
+                Log.d("Agents", "${result.data.data}")
                 agentsLDS.reInsertAgents(result.data.data)
                 agentsLDS.getAgents()
                     .catch { emit(ResultState.Error(CustomException(it.message ?: ""))) }
@@ -37,7 +39,7 @@ internal class AgentRepositoryImpl @Inject constructor (
 
             else if (result is ResultState.Error){
                 emit(result)
-                Log.e("Agent", "error from repo ${result.exception}")
+                Log.e("Agents", "error from repo ${result.exception}")
             }
         }
     }
