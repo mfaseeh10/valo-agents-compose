@@ -18,6 +18,7 @@ data class AgentUiModel(
 data class RoleUiModel(
     val displayIcon: String = "",
     val displayName: String = "",
+    val description: String = "",
 )
 
 internal fun Agent.toAgentUiModel() = AgentUiModel(
@@ -29,10 +30,11 @@ internal fun Agent.toAgentUiModel() = AgentUiModel(
     fullPortrait = fullPortrait ?: "",
     fullPortraitV2 = fullPortraitV2 ?: "",
     background = background ?: "",
-    role = this.role?.toRoleUiModel() ?: RoleUiModel()
+    role = this.role?.toRoleUiModel() ?: RoleUiModel(description = description)
 )
 
 internal fun Role.toRoleUiModel() = RoleUiModel(
     displayIcon = this.displayIcon,
-    displayName = this.displayName
+    displayName = this.displayName,
+    description = this.description
 )

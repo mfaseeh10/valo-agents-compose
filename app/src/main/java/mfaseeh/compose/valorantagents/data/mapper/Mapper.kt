@@ -49,8 +49,9 @@ internal fun RoleEntity.toRole() = Role(
     displayIcon = this.displayIcon,
 )
 internal fun RoleEntity.toRoleUIModel() = RoleUiModel(
-    displayName = this.displayName,
     displayIcon = this.displayIcon,
+    displayName = this.displayName,
+    description = description,
 )
 internal fun Role.toRoleEntity() = RoleEntity(
     uuid = this.uuid,
