@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -90,7 +91,8 @@ private fun AgentRoleAndAbilities(agent: AgentUiModel) {
             Spacer(modifier = Modifier.height(10.dp))
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = agent.role.displayName,
@@ -102,13 +104,21 @@ private fun AgentRoleAndAbilities(agent: AgentUiModel) {
                 AsyncImage(
                     model = agent.role.displayIcon,
                     contentDescription = "Role Icon",
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                    modifier = Modifier.height(30.dp).width(30.dp)
                 )
             }
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = agent.role.description,
                 style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = "//Abilities",
+                style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
