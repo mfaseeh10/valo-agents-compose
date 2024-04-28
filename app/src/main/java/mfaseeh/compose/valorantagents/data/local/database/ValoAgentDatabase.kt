@@ -8,7 +8,7 @@ import mfaseeh.compose.valorantagents.data.local.typeconverters.DatabaseTypeConv
 
 @Database(
     entities = [AgentEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(DatabaseTypeConverter::class)

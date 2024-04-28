@@ -2,7 +2,6 @@ package mfaseeh.compose.valorantagents.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.squareup.moshi.Json
 
 @Entity
 internal data class AgentEntity(
@@ -14,5 +13,6 @@ internal data class AgentEntity(
     val fullPortrait: String? = "",
     val fullPortraitV2: String? = "",
     val background: String? = "",
-    val roleEntity: RoleEntity
+    val roleEntity: RoleEntity,
+    val abilitiesEntity: List<AbilitiesEntity>
 )

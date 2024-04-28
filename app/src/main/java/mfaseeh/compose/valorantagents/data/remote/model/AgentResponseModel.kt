@@ -22,7 +22,20 @@ data class AgentResponseModel(
     @Json(name = "background")
     val background: String? = "",
     @Json(name = "role")
-    val role: Role? = null
+    val role: Role? = null,
+    @Json(name = "abilities")
+    val abilities: List<Ability>? = null
+)
+@JsonClass(generateAdapter = true)
+data class Ability(
+    @Json(name = "slot")
+    val slot: String = "",
+    @Json(name = "displayName")
+    val displayName: String = "",
+    @Json(name = "description")
+    val description: String = "",
+    @Json(name = "displayIcon")
+    val displayIcon: String? = ""
 )
 
 @JsonClass(generateAdapter = true)

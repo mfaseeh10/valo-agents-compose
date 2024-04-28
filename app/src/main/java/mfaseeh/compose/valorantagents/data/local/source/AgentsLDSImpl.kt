@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.map
 import mfaseeh.compose.valorantagents.common.extensions.notNullable
 import mfaseeh.compose.valorantagents.data.local.dao.AgentDao
 import mfaseeh.compose.valorantagents.data.local.entity.AgentEntity
-import mfaseeh.compose.valorantagents.data.mapper.toAgent
 import mfaseeh.compose.valorantagents.data.mapper.toAgentEntity
+import mfaseeh.compose.valorantagents.data.mapper.toAgentResponseModel
 import mfaseeh.compose.valorantagents.data.remote.model.AgentResponseModel
 import javax.inject.Inject
 
 internal class AgentsLDSImpl @Inject constructor(val dao: AgentDao) : AgentsLDS {
     override fun getAgents(): Flow<List<AgentResponseModel>> = dao.getAllAgents().map {
-        it.map { agentEntity -> agentEntity.toAgent() }
+        it.map { agentEntity -> agentEntity.toAgentResponseModel() }
     }
 
     override fun getAgentId(id: String): Flow<AgentEntity> =
