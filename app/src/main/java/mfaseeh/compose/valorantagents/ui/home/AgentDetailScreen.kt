@@ -11,21 +11,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.Button
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.sharp.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
 import mfaseeh.compose.valorantagents.ui.home.uistates.AgentDetailUiState
 
 @Composable
-internal fun AgentDetailScreen(agentDetailUiState: AgentDetailUiState) {
+internal fun AgentDetailScreen(agentDetailUiState: AgentDetailUiState, navHostController: NavHostController) {
     when (agentDetailUiState) {
         is AgentDetailUiState.Error -> {
             TODO()
@@ -40,7 +46,16 @@ internal fun AgentDetailScreen(agentDetailUiState: AgentDetailUiState) {
         }
 
         is AgentDetailUiState.Success -> {
-            AgentDetailBody(agent = agentDetailUiState.agentDetail)
+            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)){
+                AgentDetailBody(agent = agentDetailUiState.agentDetail)
+                IconButton(onClick = { navHostController.popBackStack() }) {
+                    Icon(
+                        Icons.Sharp.ArrowBack,
+                        contentDescription = "Arrow Back",
+                        modifier = Modifier.size(50.dp),
+                    )
+                }
+            }
         }
     }
 }
@@ -50,6 +65,9 @@ fun AgentDetailBody(agent: AgentUiModel) {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(color = MaterialTheme.colorScheme.background)) {
+        Button(onClick = { }) {
+
+        }
         Box(
             modifier = Modifier
                 .wrapContentSize()

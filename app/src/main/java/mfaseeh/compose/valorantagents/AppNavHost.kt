@@ -14,10 +14,10 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import mfaseeh.compose.valorantagents.ui.home.viewmodel.HomeViewModel
-import mfaseeh.compose.valorantagents.ui.home.HomeScreen
 import mfaseeh.compose.valorantagents.ui.home.AgentDetailScreen
+import mfaseeh.compose.valorantagents.ui.home.HomeScreen
 import mfaseeh.compose.valorantagents.ui.home.viewmodel.AgentDetailViewModel
+import mfaseeh.compose.valorantagents.ui.home.viewmodel.HomeViewModel
 
 @Composable
 internal fun AppNavHost(
@@ -49,7 +49,7 @@ internal fun AppNavHost(
             val viewModel = hiltViewModel<AgentDetailViewModel>()
             viewModel.getAgentDetails(uuid = uuid ?: "")
             val agentsDetailUiState by viewModel.agentsDetailsUiState.collectAsStateWithLifecycle()
-            AgentDetailScreen(agentsDetailUiState)
+            AgentDetailScreen(agentsDetailUiState,navController)
         }
     }
 
