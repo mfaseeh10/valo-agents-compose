@@ -6,6 +6,7 @@ import mfaseeh.compose.valorantagents.data.local.entity.RoleEntity
 import mfaseeh.compose.valorantagents.data.remote.model.Ability
 import mfaseeh.compose.valorantagents.data.remote.model.AgentResponseModel
 import mfaseeh.compose.valorantagents.data.remote.model.Role
+import mfaseeh.compose.valorantagents.domain.model.AbilityUiModel
 import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
 import mfaseeh.compose.valorantagents.domain.model.RoleUiModel
 
@@ -32,7 +33,8 @@ internal fun AgentEntity.toAgentUiModel() = AgentUiModel(
     fullPortrait = this.fullPortrait.orEmpty(),
     fullPortraitV2 = this.fullPortraitV2.orEmpty(),
     background = this.background.orEmpty(),
-    role = this.roleEntity.toRoleUIModel()
+    role = this.roleEntity.toRoleUIModel(),
+    abilities = this.abilitiesEntity.toAbilitiesUIModelList()
 )
 
 internal fun AgentResponseModel.toAgentEntity() = AgentEntity(
@@ -55,6 +57,9 @@ internal fun List<Ability>.toAbilitiesEntityList() =
 internal fun List<AbilitiesEntity>.toAbilitiesList() =
     this.map { it.toAbility() }
 
+internal fun List<AbilitiesEntity>.toAbilitiesUIModelList() =
+    this.map { it.toAbilityUiModel() }
+
 internal fun Ability.toAbilityEntity() = AbilitiesEntity(
     slot = this.slot,
     displayName = this.displayName,
@@ -63,6 +68,12 @@ internal fun Ability.toAbilityEntity() = AbilitiesEntity(
 )
 
 internal fun AbilitiesEntity.toAbility() = Ability(
+    slot = this.slot,
+    displayName = this.displayName,
+    description = this.description,
+    displayIcon = this.displayIcon
+)
+internal fun AbilitiesEntity.toAbilityUiModel() = AbilityUiModel(
     slot = this.slot,
     displayName = this.displayName,
     description = this.description,

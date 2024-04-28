@@ -124,6 +124,15 @@ private fun AgentRoleAndAbilities(agent: AgentUiModel) {
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
+            //Todo add abilities composable
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = agent.abilities[0].displayName,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+
 
         }
     }

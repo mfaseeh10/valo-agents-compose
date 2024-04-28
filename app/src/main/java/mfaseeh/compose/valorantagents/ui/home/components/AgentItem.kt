@@ -22,16 +22,17 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import mfaseeh.compose.valorantagents.R
+import mfaseeh.compose.valorantagents.domain.model.AbilityUiModel
 import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
 import mfaseeh.compose.valorantagents.domain.model.RoleUiModel
 
 @Composable
-internal fun AgentItem(agent: AgentUiModel, onClick: (String) -> Unit = {}){
+internal fun AgentItem(agent: AgentUiModel, onClick: (String) -> Unit = {}) {
     Card(
         modifier = Modifier
             .wrapContentSize()
             .padding(4.dp)
-            .clickable { onClick(agent.uuid)  },
+            .clickable { onClick(agent.uuid) },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -78,7 +79,8 @@ fun PrevAgentCard() {
             fullPortrait = "",
             fullPortraitV2 = "",
             background = "",
-            role = RoleUiModel()
+            role = RoleUiModel(),
+            abilities = listOf(AbilityUiModel())
         )
     )
 }
