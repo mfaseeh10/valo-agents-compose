@@ -1,6 +1,5 @@
 package mfaseeh.compose.valorantagents.ui.home.uistates
 
-import mfaseeh.compose.valorantagents.data.remote.model.Agent
 import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
 
 internal sealed interface AgentDetailUiState {

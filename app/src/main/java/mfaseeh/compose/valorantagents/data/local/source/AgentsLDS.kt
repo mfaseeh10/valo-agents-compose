@@ -2,10 +2,10 @@ package mfaseeh.compose.valorantagents.data.local.source
 
 import kotlinx.coroutines.flow.Flow
 import mfaseeh.compose.valorantagents.data.local.entity.AgentEntity
-import mfaseeh.compose.valorantagents.data.remote.model.Agent
+import mfaseeh.compose.valorantagents.data.remote.model.AgentResponseModel
 
 internal interface AgentsLDS {
-    fun getAgents(): Flow<List<Agent>>
+    fun getAgents(): Flow<List<AgentResponseModel>>
 
     fun getAgentId(id: String):  Flow<AgentEntity>
 
@@ -13,5 +13,5 @@ internal interface AgentsLDS {
 
     suspend fun deleteAgents()
 
-    suspend fun reInsertAgents(agents: List<Agent>)
+    suspend fun reInsertAgents(agentResponseModels: List<AgentResponseModel>)
 }

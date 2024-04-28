@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Agent(
+data class AgentResponseModel(
     @Json(name = "uuid")
     val uuid: String,
     @Json(name = "displayName")
@@ -40,7 +40,7 @@ data class Role(
 )
 
 @JsonClass(generateAdapter = true)
-data class AgentResponse(
+data class AgentListResponse(
     @Json(name = "data")
-    val data: List<Agent>
+    val data: List<AgentResponseModel>
 )

@@ -9,7 +9,7 @@ import mfaseeh.compose.valorantagents.R
 import mfaseeh.compose.valorantagents.common.ResultState
 import mfaseeh.compose.valorantagents.common.exception.CustomException
 import mfaseeh.compose.valorantagents.data.local.source.AgentsLDS
-import mfaseeh.compose.valorantagents.data.remote.model.Agent
+import mfaseeh.compose.valorantagents.data.remote.model.AgentResponseModel
 import mfaseeh.compose.valorantagents.data.remote.source.AgentsRDS
 import mfaseeh.compose.valorantagents.domain.repository.AgentRepository
 import javax.inject.Inject
@@ -24,7 +24,7 @@ internal class AgentRepositoryImpl @Inject constructor (
         val appName =  context.getString(R.string.app_name)
         Log.d("Repository", "Hello from repo my name is $appName")
     }
-    override suspend fun getAgents(): Flow<ResultState<List<Agent>>> = flow {
+    override suspend fun getAgents(): Flow<ResultState<List<AgentResponseModel>>> = flow {
         agentsRDS.fetchAgents().collect { result ->
             Log.d("Agents", "Result: $result")
             if(result is ResultState.Success){
