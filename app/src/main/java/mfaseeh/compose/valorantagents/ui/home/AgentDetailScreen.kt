@@ -60,7 +60,9 @@ internal fun AgentDetailScreen(
 
                 when (page) {
                     0 -> {
-                        AgentHeader(agentDetailUiState, navHostController)
+                        AgentHeader(agentDetailUiState) {
+                            navHostController.popBackStack()
+                        }
                     }
 
                     1 -> {
@@ -130,12 +132,12 @@ private fun AgentRoleAndAbilities(agent: AgentUiModel) {
 @Composable
 private fun AgentHeader(
     agentDetailUiState: AgentDetailUiState.Success,
-    navHostController: NavHostController
+    onClick: () -> Unit
 ) {
     Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
         AgentDetailBody(agent = agentDetailUiState.agentDetail)
         IconButton(
-            onClick = { navHostController.popBackStack() },
+            onClick = onClick,
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
         ) {
             Icon(
