@@ -1,6 +1,7 @@
 package mfaseeh.compose.valorantagents.domain.model
 
 import mfaseeh.compose.valorantagents.data.remote.model.Agent
+import mfaseeh.compose.valorantagents.data.remote.model.Role
 
 data class AgentUiModel(
     val uuid: String,
@@ -10,7 +11,13 @@ data class AgentUiModel(
     val description: String,
     val fullPortrait: String,
     val fullPortraitV2: String,
-    val background: String
+    val background: String,
+    val role: RoleUiModel
+)
+
+data class RoleUiModel(
+    val displayIcon: String = "",
+    val displayName: String = "",
 )
 
 internal fun Agent.toAgentUiModel() = AgentUiModel(
@@ -21,5 +28,11 @@ internal fun Agent.toAgentUiModel() = AgentUiModel(
     description = description,
     fullPortrait = fullPortrait ?: "",
     fullPortraitV2 = fullPortraitV2 ?: "",
-    background = background ?: ""
+    background = background ?: "",
+    role = this.role?.toRoleUiModel() ?: RoleUiModel()
+)
+
+internal fun Role.toRoleUiModel() = RoleUiModel(
+    displayIcon = this.displayIcon,
+    displayName = this.displayName
 )

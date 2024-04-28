@@ -13,7 +13,6 @@ internal data class RoleEntity(
 
     val displayName: String = "",
 
-    val assetPath: String = "",
+    val description: String = "",
 
-    val description: String = ""
 )

@@ -3,9 +3,8 @@ package mfaseeh.compose.valorantagents.domain.usecase.agent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import mfaseeh.compose.valorantagents.common.ResultState
-import mfaseeh.compose.valorantagents.data.remote.model.Agent
+import mfaseeh.compose.valorantagents.data.mapper.toAgentUiModel
 import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
-import mfaseeh.compose.valorantagents.domain.model.toAgentUiModel
 import mfaseeh.compose.valorantagents.domain.repository.AgentRepository
 import javax.inject.Inject
 

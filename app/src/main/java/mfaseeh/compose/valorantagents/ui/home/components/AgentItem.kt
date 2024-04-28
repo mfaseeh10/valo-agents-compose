@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import mfaseeh.compose.valorantagents.R
-import mfaseeh.compose.valorantagents.data.remote.model.Agent
 import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
+import mfaseeh.compose.valorantagents.domain.model.RoleUiModel
 
 @Composable
 internal fun AgentItem(agent: AgentUiModel, onClick: (String) -> Unit = {}){
@@ -77,7 +77,8 @@ fun PrevAgentCard() {
             description = "",
             fullPortrait = "",
             fullPortraitV2 = "",
-            background = ""
+            background = "",
+            role = RoleUiModel()
         )
     )
 }

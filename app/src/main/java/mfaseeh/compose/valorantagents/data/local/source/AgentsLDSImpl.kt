@@ -1,10 +1,12 @@
 package mfaseeh.compose.valorantagents.data.local.source
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import mfaseeh.compose.valorantagents.common.extensions.notNullable
 import mfaseeh.compose.valorantagents.data.local.dao.AgentDao
+import mfaseeh.compose.valorantagents.data.local.entity.AgentEntity
 import mfaseeh.compose.valorantagents.data.mapper.toAgent
 import mfaseeh.compose.valorantagents.data.mapper.toAgentEntity
 import mfaseeh.compose.valorantagents.data.remote.model.Agent
@@ -15,10 +17,8 @@ internal class AgentsLDSImpl @Inject constructor(val dao: AgentDao) : AgentsLDS 
         it.map { agentEntity -> agentEntity.toAgent() }
     }
 
-    override fun getAgentId(id: String): Flow<Agent> =
-        dao.getAgentById(id).distinctUntilChanged().notNullable().map {
-            it.toAgent()
-        }
+    override fun getAgentId(id: String): Flow<AgentEntity> =
+        dao.getAgentById(id).distinctUntilChanged().notNullable()
 
 //    override suspend fun saveAgents(stores: List<Agent>) {
 //        TODO("Not yet implemented")
@@ -28,6 +28,7 @@ internal class AgentsLDSImpl @Inject constructor(val dao: AgentDao) : AgentsLDS 
 
     override suspend fun reInsertAgents(agents: List<Agent>) {
         val filteredList = agents.filterNot { it.background == null }
+        Log.d("Agents", "agents in db: $filteredList")
         dao.reInsertAgents(filteredList.map { it.toAgentEntity() })
     }
 
