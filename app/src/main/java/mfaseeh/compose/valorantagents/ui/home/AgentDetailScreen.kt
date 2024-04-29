@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.ArrowBack
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
+import mfaseeh.compose.valorantagents.ui.home.components.ExpandableCard
 import mfaseeh.compose.valorantagents.ui.home.uistates.AgentDetailUiState
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -75,6 +77,7 @@ internal fun AgentDetailScreen(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun AgentRoleAndAbilities(agent: AgentUiModel) {
     Box(
@@ -132,6 +135,7 @@ private fun AgentRoleAndAbilities(agent: AgentUiModel) {
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
+            ExpandableCard(title = agent.abilities[0].displayName, description = agent.abilities[0].description)
 
 
         }
