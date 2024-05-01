@@ -28,7 +28,6 @@ internal class AgentsLDSImpl @Inject constructor(val dao: AgentDao) : AgentsLDS 
 
     override suspend fun reInsertAgents(agentResponseModels: List<AgentResponseModel>) {
         val filteredList = agentResponseModels.filterNot { it.background == null }
-        Log.d("Agents", "agents in db: $filteredList")
         dao.reInsertAgents(filteredList.map { it.toAgentEntity() })
     }
 

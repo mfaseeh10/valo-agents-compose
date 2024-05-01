@@ -25,23 +25,32 @@ internal class AgentRepositoryImpl @Inject constructor (
         Log.d("Repository", "Hello from repo my name is $appName")
     }
     override suspend fun getAgents(): Flow<ResultState<List<AgentResponseModel>>> = flow {
-        agentsRDS.fetchAgents().collect { result ->
-            Log.d("Agents", "Result: $result")
-            if(result is ResultState.Success){
-                Log.d("Agents", "${result.data.data}")
-                agentsLDS.reInsertAgents(result.data.data)
-                agentsLDS.getAgents()
-                    .catch { emit(ResultState.Error(CustomException(it.message ?: ""))) }
-                    .collect {
-                        emit(ResultState.Success(it))
+        agentsLDS.getAgents().collect{ agents ->
+            val agentLocalEmpty = agents.isEmpty()
+            Log.d("Agents", "Local Result: $agentLocalEmpty")
+            if(agentLocalEmpty){
+                agentsRDS.fetchAgents().collect { result ->
+//                    Log.d("Agents", "Result: $result")
+                    if(result is ResultState.Success){
+//                        Log.d("Agents", "${result.data.data}")
+                        agentsLDS.reInsertAgents(result.data.data)
+                        agentsLDS.getAgents()
+                            .catch { emit(ResultState.Error(CustomException(it.message ?: ""))) }
+                            .collect {
+                                emit(ResultState.Success(it))
+                            }
                     }
-            }
 
-            else if (result is ResultState.Error){
-                emit(result)
-                Log.e("Agents", "error from repo ${result.exception}")
+                    else if (result is ResultState.Error){
+                        emit(result)
+                        Log.e("Agents", "error from repo ${result.exception}")
+                    }
+                }
+            } else {
+                emit(ResultState.Success(agents))
             }
         }
+
     }
 
     override suspend fun getAgentDetails(uuid: String) = flow {
