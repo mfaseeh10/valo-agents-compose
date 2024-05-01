@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.ExperimentalMaterialApi
@@ -110,7 +111,9 @@ private fun AgentRoleAndAbilities(agent: AgentUiModel) {
                     model = agent.role.displayIcon,
                     contentDescription = "Role Icon",
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                    modifier = Modifier.height(30.dp).width(30.dp)
+                    modifier = Modifier
+                        .height(30.dp)
+                        .width(30.dp)
                 )
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -127,17 +130,12 @@ private fun AgentRoleAndAbilities(agent: AgentUiModel) {
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
-            //Todo add abilities composable
             Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = agent.abilities[0].displayName,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            ExpandableCard(title = agent.abilities[0].displayName, description = agent.abilities[0].description)
-
-
+            LazyColumn {
+                items(agent.abilities.size) { index ->
+                    ExpandableCard(imageUrl = agent.abilities[index].displayIcon, title = agent.abilities[index].displayName, description = agent.abilities[index].description)
+                }
+            }
         }
     }
 }
