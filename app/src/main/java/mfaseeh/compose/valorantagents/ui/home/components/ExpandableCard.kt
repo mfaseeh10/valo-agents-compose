@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -91,7 +90,7 @@ fun ExpandableCard(
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier
                         .weight(1f)
-                        .wrapContentWidth()
+                        .padding(start = 12.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 IconButton(
