@@ -2,14 +2,10 @@ package mfaseeh.compose.valorantagents.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
-import com.example.compose.Pink40
-import com.example.compose.Pink80
 import com.example.compose.blackV
-import com.example.compose.md_theme_dark_background
 import com.example.compose.md_theme_dark_error
 import com.example.compose.md_theme_dark_errorContainer
 import com.example.compose.md_theme_dark_inverseOnSurface
@@ -149,6 +145,8 @@ fun ValorantAppTheme(
     } else {
         DarkColors
     }
+
+
 
     MaterialTheme(
         colorScheme = colors,
