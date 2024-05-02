@@ -14,7 +14,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import mfaseeh.compose.valorantagents.ui.home.AgentDetailScreen
+import mfaseeh.compose.valorantagents.ui.agentdetails.AgentDetailScreen
 import mfaseeh.compose.valorantagents.ui.home.HomeScreen
 import mfaseeh.compose.valorantagents.ui.home.viewmodel.AgentDetailViewModel
 import mfaseeh.compose.valorantagents.ui.home.viewmodel.HomeViewModel
