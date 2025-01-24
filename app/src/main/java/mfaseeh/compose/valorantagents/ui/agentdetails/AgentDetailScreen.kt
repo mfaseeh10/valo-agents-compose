@@ -52,21 +52,28 @@ internal fun AgentDetailScreen(
         }
 
         is AgentDetailUiState.Success -> {
-            val pagerState = rememberPagerState(initialPage = 0)
-            VerticalPager(state = pagerState, pageCount = 2) { page ->
+            val pagerState = rememberPagerState(
+                initialPage = 0,
+                initialPageOffsetFraction = 0f
+            ) {
+                2
+            }
+            VerticalPager(
+                state = pagerState,
+                pageContent = { page ->
+                    when (page) {
+                        0 -> {
+                            AgentHeader(agentDetailUiState) {
+                                navHostController.popBackStack()
+                            }
+                        }
 
-                when (page) {
-                    0 -> {
-                        AgentHeader(agentDetailUiState) {
-                            navHostController.popBackStack()
+                        1 -> {
+                            AgentRoleAndAbilities(agentDetailUiState.agentDetail)
                         }
                     }
-
-                    1 -> {
-                        AgentRoleAndAbilities(agentDetailUiState.agentDetail)
-                    }
                 }
-            }
+            )
 
         }
     }
