@@ -2,8 +2,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.ksp)   // new plugin for KSP
+    alias(libs.plugins.hilt)  // Apply Hilt here
+    alias(libs.plugins.ksp)   // Apply KSP here
     alias(libs.plugins.compose.compiler)
 }
 
@@ -53,11 +53,6 @@ android {
 }
 
 dependencies {
-    val moshi_version = "1.14.0"
-    val retrofit_version = "2.9.0"
-    val coil_version = "2.4.0"
-    val hilt_version = "2.44.2"
-    val room_version = "2.5.2"
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
@@ -91,7 +86,6 @@ dependencies {
 
     // room
     implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.paging)
@@ -108,11 +102,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 }
 
-//kapt {
-//    javacOptions {
-//        // These options are normally set automatically via the Hilt Gradle plugin, but we
-//        // set them manually to workaround a bug in the Kotlin 1.5.20
-//        option("-Adagger.fastInit=ENABLED")
-//        option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
-//    }
-//}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("dagger.hilt.android.internal.disableAndroidSuperclassValidation", "true")
+}
