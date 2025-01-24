@@ -1,10 +1,12 @@
 package mfaseeh.compose.valorantagents.data.repository
 
 import android.app.Application
-import android.util.Log
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import mfaseeh.compose.valorantagents.common.ResultState
 import mfaseeh.compose.valorantagents.common.exception.CustomException
 import mfaseeh.compose.valorantagents.data.local.source.AgentsLDS
@@ -19,36 +21,36 @@ internal class AgentRepositoryImpl @Inject constructor(
     private val context: Application
 ) : AgentRepository {
 
-    override suspend fun getAgents(): Flow<ResultState<List<AgentResponseModel>>> = flow {
-        agentsLDS.getAgents().collect { agents ->
-            if (agents.isEmpty()) {
-                agentsRDS.fetchAgents().collect { result ->
-                    if (result is ResultState.Success) {
-                        agentsLDS.reInsertAgents(result.data.data)
-                        agentsLDS.getAgents()
-                            .catch { emit(ResultState.Error(CustomException(it.message ?: ""))) }
-                            .collect {
-                                emit(ResultState.Success(it))
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun getAgents(): Flow<ResultState<List<AgentResponseModel>>> =
+        agentsLDS.getAgents()
+            .flatMapConcat { agents ->
+                if (agents.isEmpty()) {
+                    agentsRDS.fetchAgents()
+                        .flatMapConcat { result ->
+                            when (result) {
+                                is ResultState.Success -> {
+                                    agentsLDS.reInsertAgents(result.data.data)
+                                    agentsLDS.getAgents()
+                                        .map { ResultState.Success(it) }
+                                }
+                                is ResultState.Error -> flowOf(result)
                             }
-                    } else if (result is ResultState.Error) {
-                        emit(result)
-                        Log.e("Agents", "error from repo ${result.exception}")
-                    }
+                        }
+                } else {
+                    flowOf(ResultState.Success(agents))
                 }
-            } else {
-                emit(ResultState.Success(agents))
             }
-        }
-
-    }
-
-    override suspend fun getAgentDetails(uuid: String) = flow {
-        agentsLDS.getAgentId(uuid)
             .catch { emit(ResultState.Error(CustomException(it.message ?: ""))) }
-            .collect {
-                emit(ResultState.Success(it))
+
+
+    override fun getAgentDetails(uuid: String) =
+        agentsLDS.getAgentId(uuid)
+            .catch { ResultState.Error(CustomException(it.message ?: "")) }
+            .map {
+                ResultState.Success(it)
             }
-    }
+
 
 
 }

@@ -7,7 +7,7 @@ import mfaseeh.compose.valorantagents.data.remote.model.AgentResponseModel
 
 internal interface AgentRepository {
 
-    suspend fun getAgents(): Flow<ResultState<List<AgentResponseModel>>>
+     fun getAgents(): Flow<ResultState<List<AgentResponseModel>>>
 
-    suspend fun getAgentDetails(uuid: String): Flow<ResultState<AgentEntity>>
+     fun getAgentDetails(uuid: String): Flow<ResultState<AgentEntity>>
 }
