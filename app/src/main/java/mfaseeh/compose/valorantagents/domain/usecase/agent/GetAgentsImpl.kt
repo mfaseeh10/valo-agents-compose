@@ -6,9 +6,8 @@ import mfaseeh.compose.valorantagents.common.ResultState
 import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
 import mfaseeh.compose.valorantagents.domain.model.toAgentUiModel
 import mfaseeh.compose.valorantagents.domain.repository.AgentRepository
-import javax.inject.Inject
 
-internal class GetAgentsImpl @Inject constructor(
+internal class GetAgentsImpl (
     private val agentRepository: AgentRepository
 ) : GetAgents {
     override  fun invoke(): Flow<ResultState<List<AgentUiModel>>> =

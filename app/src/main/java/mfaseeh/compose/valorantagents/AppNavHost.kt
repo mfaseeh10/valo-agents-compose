@@ -2,22 +2,18 @@ package mfaseeh.compose.valorantagents
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import mfaseeh.compose.valorantagents.ui.agentdetails.AgentDetailScreen
-import mfaseeh.compose.valorantagents.ui.home.HomeScreen
 import mfaseeh.compose.valorantagents.ui.agentdetails.AgentDetailViewModel
+import mfaseeh.compose.valorantagents.ui.home.HomeScreen
 import mfaseeh.compose.valorantagents.ui.home.viewmodel.HomeViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun AppNavHost(
@@ -31,7 +27,7 @@ internal fun AppNavHost(
         startDestination = startDestination
     ) {
         composable(Screen.HomeScreen.route) {
-            val viewModel = hiltViewModel<HomeViewModel>()
+            val viewModel: HomeViewModel = koinViewModel()
             val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
             HomeScreen(
                 agentsListUiState = agentsListUiState
@@ -46,22 +42,13 @@ internal fun AppNavHost(
             )
         ) {
             val uuid = it.arguments?.getString("uuid")
-            val viewModel = hiltViewModel<AgentDetailViewModel>()
+            val viewModel: AgentDetailViewModel = koinViewModel()
             viewModel.getAgentDetails(uuid = uuid ?: "")
             val agentsDetailUiState by viewModel.agentsDetailsUiState.collectAsStateWithLifecycle()
-            AgentDetailScreen(agentsDetailUiState,navController)
+            AgentDetailScreen(agentsDetailUiState, navController)
         }
     }
 
-}
-
-@Composable
-inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(navController: NavController): T {
-    val navGraphRoute = destination.parent?.route ?: return hiltViewModel()
-    val parentEntry = remember(this) {
-        navController.getBackStackEntry(navGraphRoute)
-    }
-    return hiltViewModel(parentEntry)
 }
 
 sealed class Screen(val route: String) {

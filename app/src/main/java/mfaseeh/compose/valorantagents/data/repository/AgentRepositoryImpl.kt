@@ -12,9 +12,8 @@ import mfaseeh.compose.valorantagents.data.local.source.AgentsLDS
 import mfaseeh.compose.valorantagents.data.remote.model.AgentResponseModel
 import mfaseeh.compose.valorantagents.data.remote.source.AgentsRDS
 import mfaseeh.compose.valorantagents.domain.repository.AgentRepository
-import javax.inject.Inject
 
-internal class AgentRepositoryImpl @Inject constructor(
+internal class AgentRepositoryImpl (
     private val agentsRDS: AgentsRDS,
     private val agentsLDS: AgentsLDS
 ) : AgentRepository {

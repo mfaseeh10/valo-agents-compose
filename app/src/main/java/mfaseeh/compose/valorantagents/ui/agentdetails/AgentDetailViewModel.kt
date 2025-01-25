@@ -3,7 +3,6 @@ package mfaseeh.compose.valorantagents.ui.agentdetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,10 +14,8 @@ import mfaseeh.compose.valorantagents.common.ResultState
 import mfaseeh.compose.valorantagents.common.getErrorMessage
 import mfaseeh.compose.valorantagents.domain.usecase.agent.GetAgentDetails
 import mfaseeh.compose.valorantagents.ui.home.uistates.AgentDetailUiState
-import javax.inject.Inject
 
-@HiltViewModel
-internal class AgentDetailViewModel @Inject constructor(
+internal class AgentDetailViewModel (
     private val agentDetails: GetAgentDetails
 ) : ViewModel() {
 

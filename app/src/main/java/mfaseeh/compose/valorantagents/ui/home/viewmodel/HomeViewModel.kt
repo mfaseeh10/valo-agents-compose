@@ -2,7 +2,6 @@ package mfaseeh.compose.valorantagents.ui.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -12,10 +11,8 @@ import mfaseeh.compose.valorantagents.common.exception.NoInternetException
 import mfaseeh.compose.valorantagents.common.getErrorMessage
 import mfaseeh.compose.valorantagents.domain.usecase.agent.GetAgents
 import mfaseeh.compose.valorantagents.ui.home.uistates.AgentsListUiState
-import javax.inject.Inject
 
-@HiltViewModel
-internal class HomeViewModel @Inject constructor(
+internal class HomeViewModel (
     private val getAgents: GetAgents,
 ) : ViewModel() {
 

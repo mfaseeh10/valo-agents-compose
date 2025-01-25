@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.hilt)  // Apply Hilt here
     alias(libs.plugins.ksp)   // Apply KSP here
     alias(libs.plugins.compose.compiler)
 }
@@ -78,10 +77,6 @@ dependencies {
     // splash
     implementation(libs.androidx.core.splashscreen)
 
-    // hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
 
     // room
@@ -111,5 +106,4 @@ dependencies {
 
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
-    arg("dagger.hilt.android.internal.disableAndroidSuperclassValidation", "true")
 }

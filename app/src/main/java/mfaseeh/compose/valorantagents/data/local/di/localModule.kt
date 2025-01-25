@@ -10,9 +10,9 @@ import org.koin.dsl.module
 val valoAgentsLocalModule = module {
 
     // Provide the Room database
-    single { (context: Context) ->
+    single {
         Room.databaseBuilder(
-            context,
+            get<Context>(),
             ValoAgentDatabase::class.java,
             ValoAgentDatabase::class.java.simpleName
         )

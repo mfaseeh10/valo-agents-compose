@@ -9,9 +9,8 @@ import mfaseeh.compose.valorantagents.data.local.entity.AgentEntity
 import mfaseeh.compose.valorantagents.data.mapper.toAgentEntity
 import mfaseeh.compose.valorantagents.data.mapper.toAgentResponseModel
 import mfaseeh.compose.valorantagents.data.remote.model.AgentResponseModel
-import javax.inject.Inject
 
-internal class AgentsLDSImpl @Inject constructor(val dao: AgentDao) : AgentsLDS {
+internal class AgentsLDSImpl (private val dao: AgentDao) : AgentsLDS {
     override fun getAgents(): Flow<List<AgentResponseModel>> = dao.getAllAgents().map {
         it.map { agentEntity -> agentEntity.toAgentResponseModel() }
     }

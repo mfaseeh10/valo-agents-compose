@@ -46,6 +46,3 @@ val valoAgentsRemoteModule = module {
         AgentsRDSImpl(get())
     }
 }
-
-// Combine all modules into a list for starting Koin
-val appModules = listOf(networkModule, apiModule, valoAgentsRemoteModule)
