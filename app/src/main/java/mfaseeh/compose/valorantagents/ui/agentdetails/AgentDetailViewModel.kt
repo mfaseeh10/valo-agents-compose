@@ -1,4 +1,4 @@
-package mfaseeh.compose.valorantagents.ui.home.viewmodel
+package mfaseeh.compose.valorantagents.ui.agentdetails
 
 
 import androidx.lifecycle.ViewModel
@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import mfaseeh.compose.valorantagents.common.ResultState
-import mfaseeh.compose.valorantagents.common.exception.NoInternetException
 import mfaseeh.compose.valorantagents.common.getErrorMessage
 import mfaseeh.compose.valorantagents.domain.usecase.agent.GetAgentDetails
 import mfaseeh.compose.valorantagents.ui.home.uistates.AgentDetailUiState

@@ -93,6 +93,12 @@ dependencies {
     // kotlin
     implementation(libs.kotlinx.serialization.json)
 
+    //koin
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.core)
+    implementation(libs.koin.test)
+    implementation(libs.koin.android)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

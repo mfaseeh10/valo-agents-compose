@@ -1,6 +1,5 @@
 package mfaseeh.compose.valorantagents.data.repository
 
-import android.app.Application
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -17,8 +16,7 @@ import javax.inject.Inject
 
 internal class AgentRepositoryImpl @Inject constructor(
     private val agentsRDS: AgentsRDS,
-    private val agentsLDS: AgentsLDS,
-    private val context: Application
+    private val agentsLDS: AgentsLDS
 ) : AgentRepository {
 
     @OptIn(ExperimentalCoroutinesApi::class)
