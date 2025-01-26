@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "ValorantAgents"
 include(":androidApp")
+include(":shared")
