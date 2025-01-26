@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)   // Apply KSP here
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.sqlDelight)
 }
 
 android {
@@ -94,6 +95,10 @@ dependencies {
     implementation(libs.koin.test)
     implementation(libs.koin.android)
 
+    //sqldelight
+    implementation(libs.sqldelight.android)
+    implementation(libs.sqldelight.coroutines)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -106,4 +111,12 @@ dependencies {
 
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
+}
+
+sqldelight {
+    databases {
+        create("ValoAgentDatabase") {
+            packageName.set("mfaseeh.compose.valorantagents.data.local.database")
+        }
+    }
 }
