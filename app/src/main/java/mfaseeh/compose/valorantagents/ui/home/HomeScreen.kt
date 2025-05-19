@@ -1,6 +1,5 @@
 package mfaseeh.compose.valorantagents.ui.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -71,10 +70,9 @@ internal fun HomeScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
-fun previewStaggeredList(paddingValues: PaddingValues = PaddingValues()) {
+fun PreviewStaggeredList(paddingValues: PaddingValues = PaddingValues()) {
 
     val context = LocalContext.current
     val height = getScreenHeight(context) * 0.5

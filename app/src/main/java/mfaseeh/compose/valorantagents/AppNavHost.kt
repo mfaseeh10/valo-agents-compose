@@ -4,11 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
+import kotlinx.serialization.Serializable
 import mfaseeh.compose.valorantagents.ui.agentdetails.AgentDetailScreen
 import mfaseeh.compose.valorantagents.ui.agentdetails.AgentDetailViewModel
 import mfaseeh.compose.valorantagents.ui.home.HomeScreen
@@ -19,40 +20,38 @@ import org.koin.androidx.compose.koinViewModel
 internal fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = Screen.HomeScreen.route
+    startDestination: Screen = Screen.HomeScreen
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(Screen.HomeScreen.route) {
+        composable<Screen.HomeScreen> {
             val viewModel: HomeViewModel = koinViewModel()
-            val agentsListUiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
-            HomeScreen(
-                agentsListUiState = agentsListUiState
-            ) { uuid ->
-                navController.navigate(Screen.AgentDetail.route + "/$uuid")
+            val uiState by viewModel.agentsListUiState.collectAsStateWithLifecycle()
+            HomeScreen(uiState) { uuid ->
+                navController.navigate(Screen.AgentDetail(uuid))
             }
         }
-        composable(
-            route = Screen.AgentDetail.route + "/{uuid}",
-            arguments = listOf(
-                navArgument("uuid") { type = NavType.StringType }
-            )
-        ) {
-            val uuid = it.arguments?.getString("uuid")
+        composable<Screen.AgentDetail> { backStackEntry: NavBackStackEntry ->
+            val route = backStackEntry.toRoute<Screen.AgentDetail>()
             val viewModel: AgentDetailViewModel = koinViewModel()
-            viewModel.getAgentDetails(uuid = uuid ?: "")
-            val agentsDetailUiState by viewModel.agentsDetailsUiState.collectAsStateWithLifecycle()
-            AgentDetailScreen(agentsDetailUiState, navController)
+            viewModel.getAgentDetails(route.uuid)
+            val uiState by viewModel.agentsDetailsUiState.collectAsStateWithLifecycle()
+            AgentDetailScreen(uiState, navController)
         }
     }
 
 }
 
-sealed class Screen(val route: String) {
-    object AgentDetail : Screen("agent-details")
-    object HomeScreen : Screen("home-screen")
+
+@Serializable
+sealed interface Screen {
+    @Serializable
+    data object HomeScreen : Screen
+
+    @Serializable
+    data class AgentDetail(val uuid: String) : Screen
 }
 
