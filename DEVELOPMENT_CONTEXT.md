@@ -46,7 +46,7 @@ The project follows **Clean Architecture** principles with clear separation of c
 - **Koin**: Dependency injection
 
 ### Data & Networking
-- **Retrofit**: HTTP client for API calls
+- **Ktor Client**: HTTP client for API calls (v3.2.3)
 - **Kotlin Serialization**: JSON serialization/deserialization
 - **Room**: Local database (SQLite)
 - **Coil**: Image loading and caching
@@ -61,9 +61,9 @@ The project follows **Clean Architecture** principles with clear separation of c
 ### 1. Data Layer (`/data`)
 
 #### Remote Data Source
-- **`ApiService`**: Defines API endpoints (`/agents`)
+- **`ApiService`**: Ktor-based service class for API endpoints (`/agents`)
 - **`AgentsRDS`**: Remote data source interface
-- **`AgentsRDSImpl`**: Retrofit implementation
+- **`AgentsRDSImpl`**: Ktor client implementation
 - **`AgentResponseModel`**: API response models with Kotlin Serialization annotations
 
 #### Local Data Source
@@ -125,6 +125,7 @@ The project follows **Clean Architecture** principles with clear separation of c
 ### 3. Error Handling
 - `ResultState<T>` sealed interface for consistent error handling
 - Custom exceptions (`NoInternetException`, `HttpException`, `CustomException`)
+- Ktor-specific exception handling (`ResponseException` for HTTP errors)
 - User-friendly error messages with `getErrorMessage()` extension
 
 ### 4. Navigation
@@ -158,7 +159,7 @@ graph TD
 initKoin(context) {
     modules(
         appModule,           // ViewModels
-        networkModule,       // Retrofit, OkHttp
+        networkModule,       // Ktor HttpClient
         apiModule,          // ApiService
         valoAgentsLocalModule,  // Room, DAO
         valoAgentsRemoteModule, // Remote data sources
@@ -265,7 +266,7 @@ kotlin = "2.0.0"
 compose = "1.5.4"
 compose-material3 = "1.1.2"
 koin = "4.0.1"
-retrofit = "2.9.0"
+ktor = "3.2.3"
 room = "2.5.2"
 coil = "2.4.0"
 navigation-compose = "2.9.0"
@@ -302,7 +303,7 @@ navigation-compose = "2.9.0"
 5. Add any required use cases and DI modules
 
 ### Adding API Endpoint
-1. Add endpoint to `ApiService`
+1. Add endpoint method to `ApiService` class (using Ktor client)
 2. Create response model with `@Serializable`
 3. Update remote data source interface and implementation
 4. Add mapper functions for domain models
@@ -350,6 +351,62 @@ navigation-compose = "2.9.0"
 - Compose Multiplatform IDE Support
 - Rainbow Brackets
 - Koin Framework
+
+## Recent Changes and Migrations
+
+### Retrofit to Ktor Migration (Latest)
+
+The project was recently migrated from Retrofit to Ktor Client v3.2.3 for improved Kotlin multiplatform compatibility and modern async programming patterns.
+
+#### Migration Details
+- **From**: Retrofit 2.9.0 with OkHttp
+- **To**: Ktor Client 3.2.3 with Android engine
+- **Date**: Latest update
+- **Impact**: Zero breaking changes to domain/UI layers
+
+#### Changes Made
+1. **Dependencies Updated**:
+   - Removed: `retrofit`, `kotlinx-serialization-converter`
+   - Added: `ktor-client-core`, `ktor-client-android`, `ktor-client-serialization`, `ktor-client-content-negotiation`, `ktor-client-logging`
+
+2. **ApiService Refactored**:
+   - **Before**: Retrofit interface with annotations
+   ```kotlin
+   interface ApiService {
+       @GET("agents")
+       suspend fun fetchAgents(): AgentListResponse
+   }
+   ```
+   - **After**: Ktor service class with HttpClient
+   ```kotlin
+   class ApiService(private val httpClient: HttpClient) {
+       suspend fun fetchAgents(): AgentListResponse {
+           return httpClient.get("agents").body()
+       }
+   }
+   ```
+
+3. **Network Configuration**:
+   - Replaced OkHttp client with Ktor HttpClient
+   - Configured Android engine with timeouts, logging, and content negotiation
+   - Maintained same base URL and JSON serialization setup
+
+4. **Error Handling Updated**:
+   - **Before**: Handled `retrofit2.HttpException`
+   - **After**: Handles Ktor's `ResponseException` (covers client/server errors)
+   - Simplified exception hierarchy while maintaining same error mapping
+
+#### Benefits of Migration
+- **Modern Async**: Native Kotlin coroutines support
+- **Multiplatform Ready**: Ktor supports Kotlin Multiplatform
+- **Type Safety**: Better type-safe HTTP client APIs
+- **Performance**: More efficient for Kotlin applications
+- **Maintenance**: Actively developed by JetBrains
+
+#### Backward Compatibility
+- All existing domain models and UI components remain unchanged
+- Repository pattern ensures data layer changes are isolated
+- Same error handling patterns maintained for UI consistency
 
 ---
 

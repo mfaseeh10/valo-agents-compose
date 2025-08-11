@@ -1,7 +1,7 @@
 package mfaseeh.compose.valorantagents.common
 
+import io.ktor.client.plugins.*
 import mfaseeh.compose.valorantagents.common.exception.HttpException
-import retrofit2.HttpException as RetrofitException
 import mfaseeh.compose.valorantagents.common.exception.NoInternetException
 import java.io.IOException
 
@@ -13,10 +13,10 @@ internal suspend fun <T> safeApiCall(apiCall: suspend () -> T): ResultState<T> {
     } catch (throwable: Throwable) {
         when (throwable) {
             is IOException -> ResultState.Error(NoInternetException())
-            is RetrofitException -> ResultState.Error(
+            is ResponseException -> ResultState.Error(
                 HttpException(
-                    errorCode = throwable.code(),
-                    errorMessage = throwable.message() ?: ""
+                    errorCode = throwable.response.status.value,
+                    errorMessage = throwable.message ?: ""
                 )
             )
             else -> ResultState.Error(throwable)

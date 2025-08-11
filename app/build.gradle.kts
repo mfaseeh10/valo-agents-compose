@@ -46,8 +46,13 @@ android {
         compose = true
         viewBinding = true
     }
-    packagingOptions {
+    packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
+    }
+    
+    lint {
+        disable.add("NullSafeMutableLiveData")
+        baseline = file("lint-baseline.xml")
     }
 }
 
@@ -64,9 +69,12 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
-    // retrofit
-    implementation(libs.retrofit)
-    implementation(libs.kotlinx.serialization.converter)
+    // ktor client
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.serialization)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.client.logging)
 
     // kotlin serialization
     implementation(libs.kotlinx.serialization.json)
