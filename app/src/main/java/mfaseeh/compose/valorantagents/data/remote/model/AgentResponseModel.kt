@@ -1,59 +1,59 @@
 package mfaseeh.compose.valorantagents.data.remote.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class AgentResponseModel(
-    @Json(name = "uuid")
+    @SerialName("uuid")
     val uuid: String,
-    @Json(name = "displayName")
+    @SerialName("displayName")
     val displayName: String,
-    @Json(name = "displayIcon")
+    @SerialName("displayIcon")
     val displayIcon: String,
-    @Json(name = "isPlayableCharacter")
+    @SerialName("isPlayableCharacter")
     val isPlayableCharacter: Boolean,
-    @Json(name = "description")
+    @SerialName("description")
     val description: String,
-    @Json(name = "fullPortrait")
+    @SerialName("fullPortrait")
     val fullPortrait: String? = "",
-    @Json(name = "fullPortraitV2")
+    @SerialName("fullPortraitV2")
     val fullPortraitV2: String? = "",
-    @Json(name = "background")
+    @SerialName("background")
     val background: String? = "",
-    @Json(name = "role")
+    @SerialName("role")
     val role: Role? = null,
-    @Json(name = "abilities")
+    @SerialName("abilities")
     val abilities: List<Ability>? = null
 )
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Ability(
-    @Json(name = "slot")
+    @SerialName("slot")
     val slot: String = "",
-    @Json(name = "displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @Json(name = "description")
+    @SerialName("description")
     val description: String = "",
-    @Json(name = "displayIcon")
+    @SerialName("displayIcon")
     val displayIcon: String? = ""
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Role(
-    @Json(name = "uuid")
+    @SerialName("uuid")
     val uuid: String = "",
-    @Json(name = "displayIcon")
+    @SerialName("displayIcon")
     val displayIcon: String = "",
-    @Json(name = "displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @Json(name = "assetPath")
+    @SerialName("assetPath")
     val assetPath: String = "",
-    @Json(name = "description")
+    @SerialName("description")
     val description: String = ""
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class AgentListResponse(
-    @Json(name = "data")
+    @SerialName("data")
     val data: List<AgentResponseModel>
 )

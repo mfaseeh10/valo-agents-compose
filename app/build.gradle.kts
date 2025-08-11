@@ -66,10 +66,10 @@ dependencies {
 
     // retrofit
     implementation(libs.retrofit)
-    implementation(libs.converter.moshi)
+    implementation(libs.kotlinx.serialization.converter)
 
-    // moshi
-    implementation(libs.moshi.kotlin)
+    // kotlin serialization
+    implementation(libs.kotlinx.serialization.json)
     // coil
     implementation(libs.coil)
     implementation(libs.coil.compose)

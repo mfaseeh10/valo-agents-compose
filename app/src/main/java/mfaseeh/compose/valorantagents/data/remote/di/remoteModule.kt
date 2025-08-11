@@ -1,14 +1,14 @@
 package mfaseeh.compose.valorantagents.data.remote.di
 
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
 import mfaseeh.compose.valorantagents.data.remote.source.AgentsRDS
 import mfaseeh.compose.valorantagents.data.remote.source.AgentsRDSImpl
 import mfaseeh.compose.valorantagents.data.remote.source.api.ApiService
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 // Define the Koin module
@@ -21,16 +21,17 @@ val networkModule = module {
     }
 
     single {
-        Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
+        Json {
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+        }
     }
 
     single {
         Retrofit.Builder()
             .baseUrl("https://valorant-api.com/v1/")
             .client(get<OkHttpClient>())
-            .addConverterFactory(MoshiConverterFactory.create(get<Moshi>()))
+            .addConverterFactory(get<Json>().asConverterFactory("application/json".toMediaType()))
             .build()
     }
 }
