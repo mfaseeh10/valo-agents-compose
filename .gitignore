@@ -1,11 +1,121 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual machine crash logs
+hs_err_pid*
+
+# IDE files
 *.iml
-.gradle
-/local.properties
-/.idea
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+.idea/
+*.swp
+*.swo
+*~
+
+# Gradle files
+.gradle/
+gradle.properties.local
+build/
+*/build/
+**/build/
+
+# Local configuration files
 local.properties
+/local.properties
+
+# Android generated files
+.externalNativeBuild/
+.cxx/
+/captures
+*.apk
+*.ap_
+*.aab
+
+# Kotlin
 .kotlin/
+**/kotlin-js-store/
+
+# Compose Multiplatform
+**/composeApp/build/
+**/composeApp/schemas/
+
+# Generated files
+**/generated/
+**/gen/
+**/.generated/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Xcode
+## Build generated
+**/DerivedData/
+**/build/
+**/Build/
+
+## User settings and data
+**/xcuserdata/
+**/project.xcworkspace/xcuserdata/
+**/*.xcuserstate
+**/*.xcuserdatad/
+**/UserInterfaceState.xcuserstate
+
+## Xcode 8 and later
+**/*.xcscmblueprint
+**/*.xccheckout
+
+## Xcode 4
+**/*.moved-aside
+**/*.pbxuser
+!**/default.pbxuser
+**/*.mode1v3
+!**/default.mode1v3
+**/*.mode2v3
+!**/default.mode2v3
+**/*.perspectivev3
+!**/default.perspectivev3
+
+## Obj-C/Swift specific
+**/*.hmap
+**/*.ipa
+**/*.dSYM.zip
+**/*.dSYM
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Manager
+.build/
+Packages/
+Package.pins
+Package.resolved
+
+# iOS specific
+**/Pods/
+**/*.xcworkspace
+!**/iosApp.xcworkspace
+**/.cocoapods/
