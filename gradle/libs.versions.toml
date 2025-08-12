@@ -10,8 +10,8 @@ espressoCore = "3.5.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 koin = "4.0.1"
-kotlin = "2.0.20"
-composeCompiler = "2.0.20" # Latest Compose Compiler version
+kotlin = "2.0.21"
+composeCompiler = "2.0.21" # Latest Compose Compiler version
 compose = "1.5.4"
 compose-material3 = "1.1.2"
 androidx-activityCompose = "1.8.0"
@@ -20,13 +20,15 @@ kotlinxSerializationJson = "1.6.2"
 lifecycleRuntimeKtx = "2.6.1"
 moshiKotlin = "1.14.0"
 navigationCompose = "2.9.0"
-ktor = "3.2.3"
-roomCompiler = "2.7.2"
-roomKtx = "2.7.2"
-roomPaging = "2.7.2"
-roomRuntime = "2.7.2"
+ktor = "3.0.0"
+roomCompiler = "2.7.0-alpha11"
+roomKtx = "2.7.0-alpha11"
+roomPaging = "2.7.0-alpha11"
+roomRuntime = "2.7.0-alpha11"
 androidPlugin = "8.7.3"
-ksp = "2.0.20-1.0.25"
+ksp = "2.0.21-1.0.25"
+composePlugin = "1.7.0"
+kotlinxCoroutines = "1.9.0"
 
 
 [libraries]
@@ -76,7 +78,20 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 ktor-client-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
-androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version = "2.5.0-beta01" }
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version = "2.5.0-alpha11" }
+
+# Compose Multiplatform dependencies
+androidx-lifecycle-viewmodel-cmp = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version = "2.8.3" }
+androidx-lifecycle-runtime-compose-cmp = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version = "2.8.3" }
+jetbrains-compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version = "2.8.0-alpha10"}
+coil-compose-cmp = { module = "io.coil-kt.coil3:coil-compose", version = "3.0.0-rc02" }
+coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version = "3.0.0-rc02" }
+coil-network-ktor2 = { module = "io.coil-kt.coil3:coil-network-ktor2", version = "3.0.0-rc02" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version = "3.0.0-rc02" }
+coil-mp = { module = "io.coil-kt.coil3:coil", version = "3.0.0-rc02" }
+koin-compose-cmp = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinxCoroutines" }
 
 
 [plugins]
@@ -88,5 +103,19 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 androidx-room = { id = "androidx.room", version.ref = "roomRuntime" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composePlugin" }
 
-
+[bundles]
+ktor = [
+    "ktor-client-core",
+    "ktor-client-content-negotiation",
+    "ktor-client-logging",
+    "ktor-client-serialization",
+]
+coil = [
+    "coil-compose-cmp",
+    "coil-compose-core",
+    "coil-network-ktor2",
+    "coil-network-ktor3",
+    "coil-mp"
+]
