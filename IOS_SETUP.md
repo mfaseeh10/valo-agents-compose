@@ -3,34 +3,40 @@
 ## Prerequisites
 - macOS with Xcode 15.0 or later
 - iOS Simulator or physical iOS device
-- CocoaPods (if using)
 
 ## Setup Steps
 
-### 1. Build the Kotlin Framework
-First, ensure the Compose Multiplatform framework is built:
-
-```bash
-# From the root directory
-./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
-./gradlew :composeApp:linkDebugFrameworkIosArm64
-```
-
-### 2. Set up Framework Paths (Automatic)
-Run the setup script to automatically configure frameworks:
-
-```bash
-cd iosApp
-./build_setup.sh
-```
-
-### 3. Open in Xcode
+### 1. Open in Xcode
 ```bash
 open iosApp/iosApp.xcodeproj
 ```
 
-### 4. Configure Build Settings (if needed)
-In Xcode, verify these settings:
+### 2. Build and Run
+1. Select your target device (Simulator or physical device)
+2. Press Cmd+R to build and run
+
+**That's it!** 🎉 
+
+The project uses automatic framework integration via Xcode's build process. When you build in Xcode, it automatically:
+- Builds the Kotlin Multiplatform framework
+- Links it with the correct architecture
+- Places it in the right location
+
+## How It Works
+
+Your Xcode project includes a "Compile Kotlin Framework" build phase that runs:
+```bash
+./gradlew :composeApp:embedAndSignAppleFrameworkForXcode
+```
+
+This Gradle task automatically handles:
+- Building the framework for the target architecture (simulator vs device)
+- Signing the framework appropriately
+- Placing it where Xcode expects it
+
+## Build Settings (Already Configured)
+
+The project is pre-configured with:
 
 **Framework Search Paths:**
 - `$(inherited)`
@@ -40,10 +46,6 @@ In Xcode, verify these settings:
 - `$(inherited)`
 - `-framework ComposeApp`
 
-### 5. Build and Run
-1. Select your target device (Simulator or physical device)
-2. Press Cmd+R to build and run
-
 ## Troubleshooting
 
 ### Common Issues
@@ -51,13 +53,10 @@ In Xcode, verify these settings:
 #### 1. Framework Not Found
 **Error:** `framework not found ComposeApp`
 
-**Solution:**
-```bash
-# Clean and rebuild frameworks
-./gradlew clean
-./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
-cd iosApp && ./build_setup.sh
-```
+**Solutions:**
+1. **Clean and rebuild** in Xcode: Product → Clean Build Folder
+2. **Clean Gradle cache**: `./gradlew clean`
+3. **Restart Xcode** and try building again
 
 #### 2. Build Errors in Xcode
 **Error:** Various compilation errors
@@ -66,6 +65,7 @@ cd iosApp && ./build_setup.sh
 - Clean Xcode build folder: Product → Clean Build Folder
 - Reset Xcode cache: Shift+Cmd+K
 - Restart Xcode
+- Run `./gradlew clean` from terminal
 
 #### 3. App Crashes on Launch
 **Error:** App crashes immediately after launch
@@ -75,99 +75,47 @@ cd iosApp && ./build_setup.sh
 - Verify all dependencies are properly linked
 - Check console logs for specific error messages
 
-#### 4. Storyboard Not Found Error
-**Error:** `Could not find a storyboard named 'Main'`
+#### 4. Gradle Task Fails
+**Error:** Build fails with iOS architecture errors
 
-**Solution:**
-This error occurs when Info.plist is configured for storyboard-based apps instead of SwiftUI. The Info.plist has been updated to use SwiftUI properly. If you encounter this:
-- Ensure Info.plist doesn't reference storyboard files
-- Verify `UIApplicationSceneManifest` is configured for SwiftUI
-- Check that `@main` annotation is on your SwiftUI App struct
+**Solutions:**
+- Ensure you're building from within Xcode (not manually running Gradle tasks)
+- If manually testing Gradle tasks, you must set appropriate environment variables
+- The `embedAndSignAppleFrameworkForXcode` task is designed to run from Xcode only
 
 ### 5. Simulator Issues
 **Error:** App doesn't run on simulator
 
 **Solutions:**
-- Ensure you built for the correct architecture:
-  - Apple Silicon Mac: `iosSimulatorArm64`
-  - Intel Mac: `iosX64`
 - Try different simulator devices
-
-## Manual Framework Setup
-
-If the automatic script doesn't work, you can manually set up frameworks:
-
-```bash
-# Create directories
-mkdir -p composeApp/build/xcode-frameworks/Debug/iphonesimulator
-mkdir -p composeApp/build/xcode-frameworks/Debug/iphoneos
-
-# Build frameworks
-./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
-./gradlew :composeApp:linkDebugFrameworkIosArm64
-
-# Copy frameworks
-cp -R composeApp/build/bin/iosSimulatorArm64/debugFramework/ComposeApp.framework \
-      composeApp/build/xcode-frameworks/Debug/iphonesimulator/
-
-cp -R composeApp/build/bin/iosArm64/debugFramework/ComposeApp.framework \
-      composeApp/build/xcode-frameworks/Debug/iphoneos/
-```
-
-## Architecture Support
-
-### Supported Targets
-- **iOS Simulator (Apple Silicon):** `iosSimulatorArm64`
-- **iOS Simulator (Intel):** `iosX64` 
-- **iOS Device:** `iosArm64`
-
-### Building for Different Targets
-```bash
-# For Apple Silicon simulator
-./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
-
-# For Intel simulator  
-./gradlew :composeApp:linkDebugFrameworkIosX64
-
-# For real devices
-./gradlew :composeApp:linkDebugFrameworkIosArm64
-```
+- Ensure your Mac architecture matches the simulator (Apple Silicon vs Intel)
+- Clean build folder and try again
 
 ## Development Workflow
 
-### 1. Making Changes
+### Making Changes to Kotlin Code
 1. Edit Kotlin code in `composeApp/src/commonMain`
-2. Rebuild framework: `./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64`
-3. Run setup script: `cd iosApp && ./build_setup.sh`
-4. Build and run in Xcode
+2. Build and run in Xcode (Cmd+R)
+3. Xcode automatically rebuilds the framework with your changes
 
-### 2. Quick Development Cycle
-For faster iteration during development:
+### Fast Development Cycle
+- **No manual steps needed!** 
+- Just edit Kotlin code and press Cmd+R in Xcode
+- The framework rebuilds automatically as part of Xcode's build process
+
+## Advanced: Manual Framework Building (Usually Not Needed)
+
+If you need to manually build frameworks for debugging:
 
 ```bash
-# Watch for changes and auto-rebuild (if available)
-./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64 --continuous
+# For iOS Simulator (Apple Silicon)
+./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
 
-# Or use a simple script to rebuild on changes
+# For iOS Simulator (Intel Mac)
+./gradlew :composeApp:linkDebugFrameworkIosX64
+
+# For iOS Device
+./gradlew :composeApp:linkDebugFrameworkIosArm64
 ```
 
-## Project Structure
-
-```
-ValorantAgents/
-├── composeApp/               # Shared Compose Multiplatform code
-│   ├── src/commonMain/      # Shared UI and business logic
-│   ├── src/iosMain/         # iOS-specific implementations
-│   └── build/xcode-frameworks/ # Built frameworks for Xcode
-├── iosApp/                  # iOS app wrapper
-│   ├── iosApp/             # Swift UI code
-│   ├── iosApp.xcodeproj/   # Xcode project
-│   └── build_setup.sh      # Setup script
-```
-
-## Notes
-
-- The iOS app acts as a thin wrapper around the Compose Multiplatform UI
-- All business logic, UI, and navigation are shared with Android
-- iOS-specific code should only be for platform integrations
-- Framework needs to be rebuilt after any Kotlin code changes
+**Note:** These manual commands build frameworks to `composeApp/build/bin/`, but Xcode expects them in `composeApp/build/xcode-frameworks/`. The automatic `embedAndSignAppleFrameworkForXcode` task handles this for you.
