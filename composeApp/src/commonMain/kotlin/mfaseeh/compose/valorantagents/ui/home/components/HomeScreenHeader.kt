@@ -1,41 +1,77 @@
 package mfaseeh.compose.valorantagents.ui.home.components
 
-import androidx.compose.foundation.background
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import mfaseeh.compose.valorantagents.ui.theme.redV
+import mfaseeh.compose.valorantagents.ui.theme.ValorantAppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun HomeScreenHeader(
-    modifier: Modifier = Modifier
+    isVisible: Boolean,
+    modifier: Modifier
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                brush = Brush.horizontalGradient(
-                    colors = listOf(redV, Color.Transparent)
-                )
-            )
-            .padding(horizontal = 20.dp, vertical = 24.dp)
+    AnimatedVisibility(
+        visible = isVisible
     ) {
-        Text(
-            text = "VALORANT AGENTS",
-            style = MaterialTheme.typography.headlineLarge.copy(
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            ),
-            modifier = Modifier.align(Alignment.CenterStart)
-        )
+        val annotatedString = buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    fontFamily = MaterialTheme.typography.titleMedium.fontFamily,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            ) {
+                append("Get To Know Your\nFavorite")
+            }
+            withStyle(
+                style = SpanStyle(
+                    fontFamily = MaterialTheme.typography.titleMedium.fontFamily,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            ) {
+                append(" Agents")
+            }
+        }
+        Column() {
+            Box(
+                modifier = modifier
+                    .padding(horizontal = 12.dp, vertical = 12.dp)
+                    .wrapContentSize()
+            ) {
+                Text(
+                    text = annotatedString,
+                    fontSize = MaterialTheme.typography.displaySmall.fontSize
+                )
+            }
+            //Todo implement search
+//          //  Box(
+//          //      modifier = Modifier
+//          //          .padding(start = 12.dp)
+//          //          .wrapContentSize()
+//          //  ) {
+//          //      Text(text = "Search")
+//          //   }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PrevHeader() {
+    ValorantAppTheme {
+        Surface {
+            HomeScreenHeader(true, Modifier.wrapContentSize())
+        }
     }
 }
