@@ -1,414 +1,157 @@
 package mfaseeh.compose.valorantagents.ui.agentdetails
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.pager.VerticalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.*
+import androidx.compose.material.icons.sharp.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import mfaseeh.compose.valorantagents.domain.model.AgentUiModel
+import mfaseeh.compose.valorantagents.ui.agentdetails.components.AgentRoleAndAbilities
 import mfaseeh.compose.valorantagents.ui.home.uistates.AgentDetailUiState
-import mfaseeh.compose.valorantagents.ui.theme.*
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun AgentDetailScreen(
-    uiState: AgentDetailUiState,
-    navController: NavController
+    agentDetailUiState: AgentDetailUiState,
+    navHostController: NavHostController
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(blackV, blueV)
-                )
-            )
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            // Custom Top Bar
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(redV, Color.Transparent)
-                        )
-                    )
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
+    when (agentDetailUiState) {
+        is AgentDetailUiState.Error -> {
+            TODO()
+        }
+
+        is AgentDetailUiState.Init -> {
+            TODO()
+        }
+
+        is AgentDetailUiState.Loading -> {
+//            Text(text = "Loading")
+        }
+
+        is AgentDetailUiState.Success -> {
+            val pagerState = rememberPagerState(
+                initialPage = 0,
+                initialPageOffsetFraction = 0f
             ) {
-                IconButton(
-                    onClick = { navController.navigateUp() },
-                    modifier = Modifier.align(Alignment.CenterStart)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
-                        tint = Color.White
-                    )
-                }
-                
-                Text(
-                    text = "AGENT DETAILS",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    ),
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                2
             }
-            
-            when (uiState) {
-                is AgentDetailUiState.Loading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator(
-                            color = redV,
-                            strokeWidth = 3.dp
-                        )
-                    }
-                }
-                
-                is AgentDetailUiState.Success -> {
-                    AgentDetailContent(agent = uiState.agentDetail)
-                }
-                
-                is AgentDetailUiState.Error -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Person,
-                                contentDescription = null,
-                                tint = redV,
-                                modifier = Modifier.size(64.dp)
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Text(
-                                text = "Something went wrong",
-                                style = MaterialTheme.typography.titleLarge,
-                                color = Color.White,
-                                textAlign = TextAlign.Center
-                            )
-                            Text(
-                                text = uiState.message,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = lightGreyV,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
-                            )
+            VerticalPager(
+                state = pagerState,
+                pageContent = { page ->
+                    when (page) {
+                        0 -> {
+                            AgentHeader(agentDetailUiState) {
+                                navHostController.popBackStack()
+                            }
+                        }
+
+                        1 -> {
+                            AgentRoleAndAbilities(agentDetailUiState.agentDetail)
                         }
                     }
                 }
-                
-                is AgentDetailUiState.Init -> {
-                    // Initial state
-                }
-            }
+            )
+
         }
     }
 }
 
 @Composable
-private fun AgentDetailContent(agent: AgentUiModel) {
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        // Hero Section with Agent Portrait
-        item {
-            Card(
+private fun AgentHeader(
+    agentDetailUiState: AgentDetailUiState.Success,
+    onClick: () -> Unit
+) {
+    Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+        AgentDetailBody(agent = agentDetailUiState.agentDetail)
+        IconButton(
+            onClick = onClick,
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+        ) {
+            Icon(
+                Icons.Sharp.ArrowBack,
+                contentDescription = "Arrow Back",
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp),
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = greyV.copy(alpha = 0.9f)
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    // Background Image
-                    if (agent.background.isNotEmpty()) {
-                        AsyncImage(
-                            model = agent.background,
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop,
-                            alpha = 0.3f
-                        )
-                    }
-                    
-                    // Gradient Overlay
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                brush = Brush.horizontalGradient(
-                                    colors = listOf(
-                                        blackV.copy(alpha = 0.8f),
-                                        Color.Transparent,
-                                        blackV.copy(alpha = 0.6f)
-                                    )
-                                )
-                            )
-                    )
-                    
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(24.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        // Agent Portrait
-                        AsyncImage(
-                            model = agent.fullPortraitV2.ifEmpty { agent.fullPortrait.ifEmpty { agent.displayIcon } },
-                            contentDescription = agent.displayName,
-                            modifier = Modifier
-                                .size(120.dp)
-                                .clip(CircleShape)
-                                .background(red2V),
-                            contentScale = ContentScale.Crop
-                        )
-                        
-                        Spacer(modifier = Modifier.width(20.dp))
-                        
-                        // Agent Info
-                        Column(
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(
-                                text = agent.displayName.uppercase(),
-                                style = MaterialTheme.typography.headlineMedium.copy(
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
-                            )
-                            
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.padding(top = 8.dp)
-                            ) {
-                                if (agent.role.displayIcon.isNotEmpty()) {
-                                    AsyncImage(
-                                        model = agent.role.displayIcon,
-                                        contentDescription = agent.role.displayName,
-                                        modifier = Modifier
-                                            .size(24.dp)
-                                            .clip(CircleShape),
-                                        contentScale = ContentScale.Fit
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                }
-                                
-                                Box(
-                                    modifier = Modifier
-                                        .background(
-                                            color = redV,
-                                            shape = RoundedCornerShape(6.dp)
-                                        )
-                                        .padding(horizontal = 12.dp, vertical = 4.dp)
-                                ) {
-                                    Text(
-                                        text = agent.role.displayName.uppercase(),
-                                        style = MaterialTheme.typography.labelMedium.copy(
-                                            fontWeight = FontWeight.Bold,
-                                            color = Color.White
-                                        )
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        // Role Information
-        if (agent.role.description.isNotEmpty()) {
-            item {
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = greyV.copy(alpha = 0.8f)
-                    )
-                ) {
-                    Column(
-                        modifier = Modifier.padding(20.dp)
-                    ) {
-                        Text(
-                            text = "ROLE",
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = FontWeight.Bold,
-                                color = redV
-                            )
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = agent.role.description,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = Color.White
-                        )
-                    }
-                }
-            }
-        }
-        
-        // Agent Description
-        item {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = greyV.copy(alpha = 0.8f)
-                )
-            ) {
-                Column(
-                    modifier = Modifier.padding(20.dp)
-                ) {
-                    Text(
-                        text = "DESCRIPTION",
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = redV
-                        )
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = agent.description,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White
-                    )
-                }
-            }
-        }
-        
-        // Abilities Section Header
-        item {
-            Text(
-                text = "ABILITIES",
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                ),
-                modifier = Modifier.padding(horizontal = 4.dp)
+                    .size(50.dp),
+                tint = MaterialTheme.colorScheme.onBackground
             )
         }
-        
-        // Abilities
-        items(agent.abilities) { ability ->
-            Card(
+    }
+}
+
+@Composable
+fun AgentDetailBody(agent: AgentUiModel) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.background)
+    ) {
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+        ) {
+            AsyncImage(
+                model = agent.background,
+                contentDescription = null,
+                alignment = Alignment.TopCenter,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .animateContentSize(
-                        animationSpec = spring(
-                            dampingRatio = Spring.DampingRatioMediumBouncy,
-                            stiffness = Spring.StiffnessLow
-                        )
-                    ),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = greyV.copy(alpha = 0.8f)
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    verticalAlignment = Alignment.Top
-                ) {
-                    // Ability Icon
-                    if (ability.displayIcon.isNotEmpty()) {
-                        AsyncImage(
-                            model = ability.displayIcon,
-                            contentDescription = ability.displayName,
-                            modifier = Modifier
-                                .size(56.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(blackV.copy(alpha = 0.6f))
-                                .padding(8.dp),
-                            contentScale = ContentScale.Fit
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-                    
-                    // Ability Info
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = ability.displayName.uppercase(),
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
-                            )
-                            
-                            Spacer(modifier = Modifier.width(8.dp))
-                            
-                            Box(
-                                modifier = Modifier
-                                    .background(
-                                        color = redV.copy(alpha = 0.7f),
-                                        shape = RoundedCornerShape(4.dp)
-                                    )
-                                    .padding(horizontal = 6.dp, vertical = 2.dp)
-                            ) {
-                                Text(
-                                    text = ability.slot.uppercase(),
-                                    style = MaterialTheme.typography.labelSmall.copy(
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.White
-                                    )
-                                )
-                            }
-                        }
-                        
-                        Spacer(modifier = Modifier.height(8.dp))
-                        
-                        Text(
-                            text = ability.description,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = lightGreyV
-                        )
-                    }
-                }
-            }
+                    .fillMaxWidth(1f)
+                    .fillMaxHeight(0.65f),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+            )
+            AsyncImage(
+                model = agent.fullPortraitV2,
+                contentDescription = null,
+                alignment = Alignment.TopCenter,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth(1f)
+                    .fillMaxHeight(0.7f)
+            )
         }
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = agent.displayName,
+            style = MaterialTheme.typography.displaySmall,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            text = "//Background",
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = agent.description,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
     }
 }
